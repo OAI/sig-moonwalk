@@ -1,0 +1,22 @@
+openapi: 4.0.0
+info:
+  title: Parameters with interdependencies
+  version: 0.5.0
+paths:
+  "onlyOne{?from,messagingServiceId}":
+    parameterSchema:
+      type: object
+      properties:
+        from:
+          type: string
+        messagingServiceId:
+          type: string
+    requests:
+      constrainedRequest:
+        parameterSchema:
+          oneOf:
+          - required: [from]
+          - required: [messagingServiceId]
+        responses:
+          ok:
+            status: 200

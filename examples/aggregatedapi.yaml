@@ -1,0 +1,9 @@
+openapi: 4.0.0
+info:
+ title: Aggregation API
+ version: 1.0.0
+paths:
+  $ref:   ## $ref can be an array
+    - "./accounting.yaml#/paths"
+    - "./inventory.yaml#/paths"
+    - "./purchasing.yaml#/paths"

@@ -1,0 +1,72 @@
+openapi: 4.0.0
+info:
+    title: Parameters defined at the path and at the request level
+    version: 0.5.0
+paths:
+  'speakers/{speakerId}{?format}':
+      parameterSchema:
+          type: object
+          properties:
+              speakerId:
+                  type: string
+                  title: Speaker ID
+      requests:
+          getSpeakerAsJson:
+              parameterSchema:
+                  type: object
+                  properties:
+                      format:
+                          type: string
+                          const: json
+              method: get
+              responses:
+                  ok:
+                      status: 200
+                      contentType: application/json
+                      contentSchema:
+                          $ref: '#/components/schemas/speaker'
+          getSpeakerAsCSV:
+              parameterSchema:
+                  type: object
+                  properties:
+                      format:
+                          type: string
+                          const: csv
+              method: get
+              responses:
+                  ok:
+                      status: 200
+                      contentType: text/csv
+                      contentSchema:
+                          type: string
+          updateSpeaker:
+              method: put
+              contentType: application/json
+              contentSchema:
+                  $ref: '#/components/schemas/speaker'
+              responses:
+                  ok:
+                      status: 200
+                      contentType: application/json
+                      contentSchema:
+                          $ref: '#/components/schemas/speaker'
+          deleteSpeaker:
+              method: delete
+              responses:
+                  ok:
+                      status: 200
+      responses:
+          notFound:
+              status: 404
+              contentType: application/http-problem
+responses:
+    serverError:
+        status: 5XX
+        contentType: application/http-problem
+components:
+    schemas:
+        Speaker:
+            type: object
+            properties:
+                name:
+                    type: string

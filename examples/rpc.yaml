@@ -1,0 +1,110 @@
+openapi: 4.0.0
+info:
+  title: RPC API
+  version: 1.0.0
+paths:
+  "/service":
+    requests:
+      createFoo:
+        method: post
+        parameterSchema:
+          type: object
+          properties:
+            header:
+              type: object
+              properties:
+                path:
+                  const: service.createFoo  ## path Header field used to convey the RPC method
+        contentType: application/json
+        contentSchema:
+          $ref: "#/components/schemas/foo"
+        responses:
+          ok:
+            status: 201
+            contentType: application/json
+            contentSchema:
+              $ref: "#/components/schemas/foo"
+      updateFoo:
+        method: post
+        parameterSchema:
+          type: object
+          properties:
+            header:
+              type: object
+              properties:
+                path:
+                  const: service.updateFoo ## path Header field used to convey the RPC method
+        contentType: application/json
+        contentSchema:
+          $ref: "#/components/schemas/foo"
+        responses:
+          ok:
+            status: 200
+            contentType: application/json
+            contentSchema:
+              $ref: "#/components/schemas/foo"
+      getFoo:
+        method: get
+        parameterSchema:
+          type: object
+          properties:
+            header:
+              type: object
+              properties:
+                path:
+                  const: service.getFoo ## path Header field used to convey the RPC method
+        responses:
+          ok:
+            status: 200
+            contentType: application/json
+            contentSchema:
+              $ref: "#/components/schemas/foo"
+      deleteFoo:
+        method: post
+        parameterSchema:
+          type: object
+          properties:
+            header:
+              type: object
+              properties:
+                path:
+                  const: service.deleteFoo
+        responses:
+          ok:
+            status: 200
+            contentType: application/json
+            contentSchema:
+              $ref: "#/components/schemas/foo"
+  "/jsonrpc":
+    requests:
+      getFoo:
+        method: post
+        parameterSchema:
+          type: object
+          properties:
+            body:
+              type: object
+              properties:
+                jsonrpc:
+                  const: 2.0
+                method:
+                  const: getFoo
+                params:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+        responses:
+          ok:
+            status: 200
+            contentType: application/json
+            contentSchema:
+              type: object
+              properties:
+                jsonrpc:
+                  const: 2.0
+                result:
+                  $ref: "#/components/schemas/foo"
+                id:
+                  type: string
+

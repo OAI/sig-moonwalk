@@ -1,0 +1,443 @@
+openapi: 4.0.0  
+info:
+  title: Swagger Petstore - OpenAPI 4.0
+  description: |-
+    This is a sample Pet Store Server based on the OpenAPI 3.0 specification.  You can find out more about
+    Swagger at [http://swagger.io](http://swagger.io). In the third iteration of the pet store, we've switched to the design first approach!
+    You can now help us improve the API whether it's by making changes to the definition itself or to the code.
+    That way, with time, we can improve the API in general, and expose some of the new features in OAS3.
+
+    Some useful links:
+    - [The Pet Store repository](https://github.com/swagger-api/swagger-petstore)
+    - [The source API definition for the Pet Store](https://github.com/swagger-api/swagger-petstore/blob/master/src/main/resources/openapi.yaml)
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: apiteam@swagger.io
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.15
+paths:
+  "pet":   ## Path is a relative reference.  It needs to be anchored to a base by a servers URL. Or if you put an absolute URL in the path, it will be used as is.
+    requests:
+        CreatePet:  ## Operation name is elevated to be a key for requests but is only unique within the pathItem
+          method: POST
+          contentType: application/json
+          contentSchema:
+              $ref: "#/components/schemas/Pet"
+          responses:
+            Created:  ## response names can use conventions to map to request names
+                status: 201
+                contentType: application/json
+            FailPetCreate:
+                status: 400
+                contentType: application/http-problem
+        RetreivePets:
+            method: GET
+            responses:
+              Ok:
+                status: 200
+                contentType: application/json
+                contentSchema:
+                  type: array
+                  items:
+                    $ref: "#/components/schemas/Pet"
+              OkinCSV:
+                status: 200
+                contentType: text/csv
+                contentSchema:
+                  type: string
+              FailPetRetreive:
+                status: 400
+                contentType: application/http-problem
+  "pet/findByStatus?status={status}":
+    requests:
+      findPetsByStatus:
+        description: Multiple status values can be provided with comma separated strings
+        method: GET
+        parameterSchema:
+          type: object
+          required:
+            - status
+          properties:
+            status:
+              type: string
+              enum: [available, pending, sold]
+        responses:
+          Ok:
+            status: 200
+            contentType: application/json
+            contentSchema:
+              type: array
+              items:
+                $ref: "#/components/schemas/Pet"
+          failBadStatus:
+            status: 400
+            description: Invalid status value
+  "pet/findByTags?tags={tags}":
+    requests:
+      findPetsByTags:
+        description: Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+        method: GET
+        parameterSchema:
+          type: object
+          required:
+            - tags
+          properties:
+            tags:
+              type: string
+        responses:
+          Ok:
+            status: 200
+            contentType: application/json
+            contentSchema:
+              type: array
+              items:
+                $ref: "#/components/schemas/Pet"
+          FailBadTag:
+            status: 400
+            description: Invalid tag value
+  "pet/{petId}":  ## Paths support full UriTemplate syntax to enable disambiguation of operations by query parameters. This means we don't need all the style/explode hints in the parameter object.
+    parameterSchema:
+        type: object
+        properties:
+            petId:
+                type: string
+                format: int64
+    requests:
+      RetreivePet:
+        method: GET
+        responses:
+          retreived:      
+              status: 200
+              description: "The pet was retreived"  ## description is optional
+              contentType: application/json
+              contentSchema:
+                  $ref: "#/components/schemas/Pet"
+      UpdatePet:
+        method: PUT
+        contentType: application/json
+        contentSchema:
+            $ref: "#/components/schemas/Pet"
+        responses:
+          Updated:
+              status: 200
+              description: "The pet was updated"
+              contentType: application/json
+              contentSchema:
+                  $ref: "#/components/schemas/Pet"
+          FailPetUpdate:
+              status: 400
+              description: "The pet was not updated"
+      UpdatePetWithForm:
+        method: POST
+        contentType: application/x-www-form-urlencoded
+        contentSchema:
+          type: object
+          properties:
+            name:
+              type: string
+            status:
+              type: string
+        responses:
+          Updated:
+              status: 200
+              description: "The pet was updated"
+              contentType: application/json
+              contentSchema:
+                  $ref: "#/components/schemas/Pet"
+          FailPetUpdate:
+              status: 400
+              description: "The pet was not updated"
+      DeletePet:
+        method: DELETE
+        responses:
+          deleted:
+            status: 204
+            description: "The pet was deleted"
+    responses:
+      petNotFound:
+          status: 404
+          description: "The pet was not found"
+      serverError:
+          status: 5XX
+  "pet/{petId}/uploadImage{?additionalMetadata}":
+    parameterSchema:
+        properties:
+            petId:
+                type: string
+                format: uuid
+            additionalMetadata:
+                type: string
+    requests:
+      uploadFile:
+        summary: "Uploads an image"
+        method: POST
+        contentType: application/octet-stream
+        responses:
+          ok:
+              status: 200
+              contentType: application/json
+              contentSchema:
+                  $ref: "#/components/schemas/ApiResponse"
+          fail:
+              status: 400
+  "/store/order":
+    requests:
+      CreateOrder:
+        method: POST
+        contentType: application/json
+        contentSchema:
+          $ref: "#/components/schemas/Order"
+        responses:
+          Created:
+            status: 201
+            contentType: application/json
+            contentSchema:
+              $ref: "#/components/schemas/Order"
+          FailOrderCreate:
+              status: 400
+      RetreiveOrders:
+        method: GET
+        responses:
+          Ok:
+            status: 200
+            contentType: application/json
+            contentSchema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Order"
+          FailOrderRetreive:
+              status: 400
+  "/store/order/{orderId}":
+    parameterSchema:
+      properties:
+        orderId:
+          type: string
+          format: int64
+    requests:
+      RetreiveOrder:
+        method: GET
+        responses:
+          Ok:
+            status: 200
+            contentType: application/json
+            contentSchema:
+              $ref: "#/components/schemas/Order"
+          FailOrderRetreive:
+              status: 400
+      DeleteOrder:
+        method: DELETE
+        responses:
+          deleted:
+            status: 204
+            description: "The order was deleted"
+    responses:
+      orderNotFound:
+          status: 404
+          description: "The order was not found"
+      serverError:
+          status: 5XX
+components:
+  schemas:
+    Order:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        petId:
+          type: integer
+          format: int64
+          example: 198772
+        quantity:
+          type: integer
+          format: int32
+          example: 7
+        shipDate:
+          type: string
+          format: date-time
+        status:
+          type: string
+          description: Order Status
+          example: approved
+          enum:
+            - placed
+            - approved
+            - delivered
+        complete:
+          type: boolean
+      xml:
+        name: order
+    Customer:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 100000
+        username:
+          type: string
+          example: fehguy
+        address:
+          type: array
+          xml:
+            name: addresses
+            wrapped: true
+          items:
+            $ref: '#/components/schemas/Address'
+      xml:
+        name: customer
+    Address:
+      type: object
+      properties:
+        street:
+          type: string
+          example: 437 Lytton
+        city:
+          type: string
+          example: Palo Alto
+        state:
+          type: string
+          example: CA
+        zip:
+          type: string
+          example: '94301'
+      xml:
+        name: address
+    Category:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        name:
+          type: string
+          example: Dogs
+      xml:
+        name: category
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        username:
+          type: string
+          example: theUser
+        firstName:
+          type: string
+          example: John
+        lastName:
+          type: string
+          example: James
+        email:
+          type: string
+          example: john@email.com
+        password:
+          type: string
+          example: '12345'
+        phone:
+          type: string
+          example: '12345'
+        userStatus:
+          type: integer
+          description: User Status
+          format: int32
+          example: 1
+      xml:
+        name: user
+    Tag:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+      xml:
+        name: tag
+    Pet:
+      required:
+        - name
+        - photoUrls
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        name:
+          type: string
+          example: doggie
+        category:
+          $ref: '#/components/schemas/Category'
+        photoUrls:
+          type: array
+          xml:
+            wrapped: true
+          items:
+            type: string
+            xml:
+              name: photoUrl
+        tags:
+          type: array
+          xml:
+            wrapped: true
+          items:
+            $ref: '#/components/schemas/Tag'
+        status:
+          type: string
+          description: pet status in the store
+          enum:
+            - available
+            - pending
+            - sold
+      xml:
+        name: pet
+    ApiResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        type:
+          type: string
+        message:
+          type: string
+      xml:
+        name: '##default'
+  requestBodies:
+    Pet:
+      description: Pet object that needs to be added to the store
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Pet'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/Pet'
+    UserArray:
+      description: List of user object
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/User'
+  securitySchemes:
+    petstore_auth:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: https://petstore3.swagger.io/oauth/authorize
+          scopes:
+            write:pets: modify pets in your account
+            read:pets: read your pets
+    api_key:
+      type: apiKey
+      name: api_key
+      in: header
