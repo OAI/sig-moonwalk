@@ -10,7 +10,7 @@ paths:
         parameterSchema:
           type: object
           properties:
-            header:
+            header:      ## We can either use this specially named property or create a first class headerSchema property on the Request Object
               type: object
               properties:
                 path:
