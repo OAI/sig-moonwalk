@@ -158,7 +158,8 @@ By using a JSON Schema object to define the shape of input path and header param
 
 ## Examples
 
+- [PetStore Example](examples/petstore.yaml)
+- [Parameter Schemas](examples/parameterSchema.yaml)
 - [Aggregated API](examples/aggregatedapi.yaml)
 - [Dependent Parameters](examples/dependentParameters.yaml)
-- [Parameter Schemas](examples/parameterSchema.yaml)
-- [PetStore Example](examples/petstore.yaml)
+- [rpc](examples/rpc.yaml)
