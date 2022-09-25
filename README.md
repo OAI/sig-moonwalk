@@ -9,8 +9,8 @@ classDiagram
   class OpenApi {
 
   }
-  OpenApi "1" --> "*" pathItem:paths  
-  OpenApi "1" --> "*" response:apiResponses
+  OpenApi "0" --> "*" pathItem:paths  
+  OpenApi "0" --> "*" response:apiResponses
   OpenApi --> Info:info
 
   class Info {
@@ -26,8 +26,8 @@ classDiagram
     uriTemplate: UriTemplate
     parameterSchema: JSONSchema
   }
-  pathItem "1" --> "*" request:requests
-  pathItem "1" --> "*" response:pathResponses
+  pathItem "0" --> "*" request:requests
+  pathItem "0" --> "*" response:pathResponses
 
   class request {
     method: string
@@ -35,7 +35,7 @@ classDiagram
     contentSchema: JSONSchema
     parameterSchema: JSONSchema
   }
-  request "1" --> "*" response:responses
+  request "0" --> "*" response:responses
 
   class response {
     parameterSchema: JSONSchema
@@ -48,9 +48,9 @@ classDiagram
    
   }
     OpenApi --> components:components
-    components "1" --> "*" response:responses
-    components "1" --> "*" request:requests
-    components "1" --> "*" schemas:schemas
+    components "0" --> "*" response:responses
+    components "0" --> "*" request:requests
+    components "0" --> "*" schemas:schemas
 
 ```
 
