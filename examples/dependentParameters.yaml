@@ -1,8 +1,112 @@
 openapi: 4.0.0
 info:
   title: Parameters with interdependencies
+  description: Examples of parameters with interdependencies come from ASC 2022 talk by Alberto Martin Lopez
   version: 0.5.0
 paths:
+  # ---------
+  # Requires - The presence of a parameter (or a specific parameter value)
+  #   requires the presence of another parameter
+  # ---------
+
+  # Bing Web Search
+  # if promote is specified then answerCount must also be specified
+  "requires{?promote,answerCount}":
+    requests:
+      constrainedRequest:
+        parameterSchema:
+          type: object
+          properties:
+            from:
+              type: string
+            messagingServiceId:
+              type: string
+          oneOf:
+          - not:
+            - required: [promote]
+          - required: [answerCount]
+        responses:
+          ok:
+            status: 200
+
+  # Tropo
+  # if type == 'number' then prefix or number must be specified
+  "requires(?type,prefix,number)":
+    requests:
+      constrainedRequest:
+        parameterSchema:
+          type: object
+          properties:
+            type:
+              type: string
+            prefix:
+              type: string
+            number:
+              type: string
+          oneOf:
+          - not:
+            - properties:
+                type:
+                  enum: ['number']
+          - required: [prefix]
+          - required: [number]
+        responses:
+          ok:
+            status: 200
+
+  # ---------
+  # Or - Given a set of parameters, one or more of them must be included.
+  # ---------
+  
+  # Flickr
+  # Either title or description must be specified
+  "or(?title,description)":
+    requests:
+      constrainedRequest:
+        parameterSchema:
+          type: object
+          properties:
+            title:
+              type: string
+            description:
+              type: string
+          anyOf:
+          - required: [title]
+          - required: [description]
+        responses:
+          ok:
+            status: 200
+
+  # NationBuilder
+  # donor_id, email, or first_name and last_name must be specified
+  "or(?donor_id,email,first_name,last_name)":
+    requests:
+      constrainedRequest:
+        parameterSchema:
+          type: object
+          properties:
+            donor_id:
+              type: string
+            email:
+              type: string
+            first_name:
+              type: string
+            last_name:
+              type: string
+          anyOf:
+          - required: [donor_id]
+          - required: [email]
+          - required: [first_name,last_name]
+        responses:
+          ok:
+            status: 200
+
+  # ---------
+  # OnlyOne - Given a set of parameters, one and only one of them must be included.
+  # ---------
+
+  # Twilio SMS
+  # Either from or messagingServiceId must be specified but not both
   "onlyOne{?from,messagingServiceId}":
     parameterSchema:
       type: object
@@ -17,6 +121,224 @@ paths:
           oneOf:
           - required: [from]
           - required: [messagingServiceId]
+        responses:
+          ok:
+            status: 200
+
+  # Yelp
+  # Either location or (latitude and longitude) must be specified but not both
+  "onlyOne{?location,latitude,longitude}":
+    parameterSchema:
+      type: object
+      properties:
+        location:
+          type: string
+        latitude:
+          type: string
+        longitude:
+          type: string
+    requests:
+      constrainedRequest:
+        parameterSchema:
+        oneOf:
+        - required: [location]
+          not:
+            anyOf:
+              - required: [latitude]
+              - required: [longitude]
+        - required: [latitude,longitude]
+        responses:
+          ok:
+            status: 200
+
+  # ---------
+  # AllOrNone - Given a set of parameters, either all of them are provided or none of them is.
+  # ---------
+
+  # GitHub
+  # subject_type and subject_id are both specified or neither is specified
+  "allOrNone{?subject_type,subject_id}":
+    requests:
+      constrainedRequest:
+        parameterSchema:
+          type: object
+          properties:
+            subject_type:
+              type: string
+            subject_id:
+              type: string
+          oneOf:
+          - required: [subject_type,subject_id]
+          - not:
+              anyOf:
+                - required: [subject_type]
+                - required: [subject_id]
+        responses:
+          ok:
+            status: 200
+
+  # Stripe
+  # value is present if and only if type is 'bucket'
+  "allOrNone{?value,type}":
+    requests:
+      constrainedRequest:
+        parameterSchema:
+          type: object
+          properties:
+            value:
+              type: string
+            type:
+              type: string
+          oneOf:
+          - properties:
+              type:
+                enum: ['bucket']
+            required: [type,value]
+          - not:
+              properties:
+                type:
+                  enum: ['bucket']          
+              required: [type,value]
+        responses:
+          ok:
+            status: 200
+
+  # ---------
+  # ZeroOrOne - Given a set of parameters, at most one of can be included.
+  # ---------
+
+  # YouTube
+  # specify zero or one of forContentOwner, forDeveloper, forMine, or relatedToVideoId
+  "zeroOrOne{?forContentOwner,forDeveloper,forMine,relatedToVideoId}":
+    requests:
+      constrainedRequest:
+        parameterSchema:
+          type: object
+          properties:
+            forContentOwner:
+              type: string
+            forDeveloper:
+              type: string
+            forMine:
+              type: string
+            relatedToVideoId:
+              type: string
+          oneOf:
+          - required: [forContentOwner]
+            not:
+              anyOf:
+              - required: [forDeveloper]
+              - required: [forMine]
+              - required: [relatedToVideoId]
+          - required: [forDeveloper]
+            not:
+              anyOf:
+              - required: [forContentOwner]
+              - required: [forMine]
+              - required: [relatedToVideoId]
+          - required: [forMine]
+            not:
+              anyOf:
+              - required: [forContentOwner]
+              - required: [forDeveloper]
+              - required: [relatedToVideoId]
+          - required: [relatedToVideoId]
+            not:
+              anyOf:
+              - required: [forContentOwner]
+              - required: [forDeveloper]
+              - required: [forMine]
+          - not:
+              anyOf:
+              - required: [forContentOwner]
+              - required: [forDeveloper]
+              - required: [forMine]
+              - required: [relatedToVideoId]
+        responses:
+          ok:
+            status: 200
+
+  # Google Maps
+  # radius must not be included if rankby == 'distance'
+  "zeroOrOne{?rankby,radius}":
+    requests:
+      constrainedRequest:
+        parameterSchema:
+          type: object
+          properties:
+            radius:
+              type: string
+            rankby:
+              type: string
+          anyOf:
+          - not:
+              required: [radius]
+          - not:
+              properties:
+                rankby:
+                  enum: ['distance']
+        responses:
+          ok:
+            status: 200
+
+  # ---------
+  # Complex - Involves two or more of the previous dependencies.
+  # ---------
+
+  # Stripe
+  # If subscription_trial_end is specified, one of subscription_items or subscription is required
+  "complex{?subscription_trial_end,subscription_items,subscription}":
+    requests:
+      constrainedRequest:
+        parameterSchema:
+          type: object
+          properties:
+            subscription_trial_end:
+              type: string
+            subscription_items:
+              type: string
+            subscription:
+              type: string
+          oneOf:
+          - not:
+              required: [subscription_trial_end]
+          - oneOf:
+            - required: [subscription_items]
+            - required: [subscription]
+        responses:
+          ok:
+            status: 200
+
+  # Foursquare
+  # radius is only valid for requests with intent=browse or requests with intent=checkin and categoryId or query
+  "complex{?radius,intent,categoryId,query}":
+    requests:
+      constrainedRequest:
+        parameterSchema:
+          type: object
+          properties:
+            radius:
+              type: number
+            intent:
+              type: string
+            categoryId:
+              type: string
+            query:
+              type: string
+          anyOf:
+          - not:
+              required: [radius]
+          - properties:
+              intent:
+                enum: ['browse']
+            required: ['intent']
+          - properties:
+              intent:
+                enum: ['checkin']
+            required: [intent]
+            anyOf:
+            - required: [categoryId]
+            - required: [query]
         responses:
           ok:
             status: 200
