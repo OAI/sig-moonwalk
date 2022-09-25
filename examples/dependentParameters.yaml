@@ -31,7 +31,7 @@ paths:
 
   # Tropo
   # if type == 'number' then prefix or number must be specified
-  "requires(?type,prefix,number)":
+  "requires{?type,prefix,number}":
     requests:
       constrainedRequest:
         parameterSchema:
