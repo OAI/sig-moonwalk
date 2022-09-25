@@ -60,7 +60,7 @@ paths:
   
   # Flickr
   # Either title or description must be specified
-  "or(?title,description)":
+  "or{?title,description}":
     requests:
       constrainedRequest:
         parameterSchema:
