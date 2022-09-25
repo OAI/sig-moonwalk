@@ -79,7 +79,7 @@ paths:
 
   # NationBuilder
   # donor_id, email, or first_name and last_name must be specified
-  "or(?donor_id,email,first_name,last_name)":
+  "or{?donor_id,email,first_name,last_name}":
     requests:
       constrainedRequest:
         parameterSchema:
