@@ -38,7 +38,6 @@ classDiagram
   request "0" --> "*" response:responses
 
   class response {
-    parameterSchema: JSONSchema
     status: string
     contentType: string
     contentSchema: string
