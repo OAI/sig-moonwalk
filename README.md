@@ -1,5 +1,7 @@
 # OpenAPI v4 (aka Moonwalk) Proposal
 
+> note: Warning, disclaimer, caveat.  This is very early thinking and is subject to major change and potential abandonment.  However, intial reactions to the direction have been positive and so ready for input from a wider group of people.
+
 ## Introduction
 This refresh of OpenAPI attempts to walk a fine line of being simpler while at the same time being more flexible. It attempts to lean more on existing standards and to minimize adding new functionality.  The essence of the restructured model is captured in this diagram.
 
