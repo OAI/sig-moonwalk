@@ -11,17 +11,7 @@ classDiagram
   }
   OpenApi "0" --> "*" pathItem:paths  
   OpenApi "0" --> "*" response:apiResponses
-  OpenApi --> Info:info
 
-  class Info {
-    string title
-    string description
-    string termsOfService
-    string contact
-    string license
-    string version
-  }
-  
   class pathItem {
     uriTemplate: UriTemplate
     parameterSchema: JSONSchema
@@ -43,13 +33,6 @@ classDiagram
     contentSchema: string
   }  
 
-  class components {
-   
-  }
-    OpenApi --> components:components
-    components "0" --> "*" response:responses
-    components "0" --> "*" request:requests
-    components "0" --> "*" schemas:schemas
 
 ```
 
@@ -183,13 +166,13 @@ components:
 ```
 In this simple example, the moonwalk version has 20% less lines and one less level of indentation.
 
+## JSONSchema for Parameters
+By using a JSON Schema object to describe input parameters we can futher disambiguate between the different kinds of requests supported by a path. This enables supporting a whole class of feature requests where API designers want to differentiate operations by [query parameter](examples/parameterSchema.yaml), [header](examples/rpc.yaml) or even [request body](examples/rpc.yaml) content. We can use `allOf` rules to combine parameters defined at the path level and at the request level. We can also have [interdependency rules](examples/dependentParameters.yaml) between parameters. For runtime validation of requests, once filtered by method and contentType, further disambiguation can be done by creating a `oneOf` of the `parameterSchema` for each ambiguous request that is `allOf`'d with the `pathItem`'s `parameterSchema`.
+
 ## UriTemplates
 By using full URI Templates to define the `pathItem` we can now use query parameters to distinguish between resources and the serialization rules of parameters no longer need to be encoded in the parameter object. OpenAPI v3 enhanced parameter objects to use the serialization features of a `uriTemplate` but without using the syntax. With this change, we can get full access to the `uriTemplate` features and use the standard syntax.
 
 Using full `uriTemplate` syntax allows us to support optional path parameters and multi-segment path parameters. We still need to address the issue of URL to `uriTemplate` mapping where there is ambiguity.
-
-## JSONSchema for Parameters
-By using a JSON Schema object to define the shape of input path and header parameters we can use `allOf` rules to combine parameters defined at the path level and at the request level. We can also have interdependency rules between parameters. For runtime validation of requests, once filtered by method and contentType, further disambiguation can be done by creating a `oneOf` of the `parameterSchema` for each ambiguous request that is `allOf`'d with the `pathItem`'s `parameterSchema`.
 
 ## Components
 `request`, `response`, and `schema` objects may be declared as reusable components. This allows `parameterSchema` to either reuse entire schemas of parameter descriptions or use `allOf` to reuse sets of parameters. As the OpenAPI reference object is now independent to the JSON Schema `$ref`, we are free to support OpenAPI Reference arrays as well as reference objects. This will allow reusing a set of requests or a set of responses.
