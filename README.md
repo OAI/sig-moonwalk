@@ -1,7 +1,7 @@
 # OpenAPI v4 (aka Moonwalk) Proposal
 
 ## Introduction
-This refresh of OpenAPI attempts to walk a fine line of being simpler while at the same time being more flexible. It attempts to lean more on existing standards and to minimize adding new functionality.
+This refresh of OpenAPI attempts to walk a fine line of being simpler while at the same time being more flexible. It attempts to lean more on existing standards and to minimize adding new functionality.  The essence of the restructured model is captured in this diagram.
 
 
 ```mermaid
