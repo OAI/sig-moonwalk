@@ -75,7 +75,7 @@ info:
   title: Simplest thing that works
   version: 0.5.0
 paths:
-  "/speakers":
+  "speakers":
     requests:
       createSpeaker:
         method: post
