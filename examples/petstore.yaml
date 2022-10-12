@@ -32,7 +32,7 @@ paths:
           FailPetCreate:
             status: 400
             contentType: application/http-problem
-      RetreivePets:
+      RetrievePets:
         method: GET
         responses:
           Ok:
@@ -47,7 +47,7 @@ paths:
             contentType: text/csv
             contentSchema:
               type: string
-          FailPetRetreive:
+          FailPetRetrieve:
             status: 400
             contentType: application/http-problem
   "pet/findByStatus?status={status}":
@@ -105,12 +105,12 @@ paths:
           type: string
           format: int64
     requests:
-      RetreivePet:
+      RetrievePet:
         method: GET
         responses:
-          retreived:
+          retrieved:
             status: 200
-            description: "The pet was retreived" ## description is optional
+            description: "The pet was retrieved" ## description is optional
             contentType: application/json
             contentSchema:
               $ref: "#/components/schemas/Pet"
@@ -197,7 +197,7 @@ paths:
               $ref: "#/components/schemas/Order"
           FailOrderCreate:
             status: 400
-      RetreiveOrders:
+      RetrieveOrders:
         method: GET
         responses:
           Ok:
@@ -207,7 +207,7 @@ paths:
               type: array
               items:
                 $ref: "#/components/schemas/Order"
-          FailOrderRetreive:
+          FailOrderRetrieve:
             status: 400
   "/store/order/{orderId}":
     parameterSchema:
@@ -216,7 +216,7 @@ paths:
           type: string
           format: int64
     requests:
-      RetreiveOrder:
+      RetrieveOrder:
         method: GET
         responses:
           Ok:
@@ -224,7 +224,7 @@ paths:
             contentType: application/json
             contentSchema:
               $ref: "#/components/schemas/Order"
-          FailOrderRetreive:
+          FailOrderRetrieve:
             status: 400
       DeleteOrder:
         method: DELETE
