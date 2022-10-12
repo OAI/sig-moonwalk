@@ -1,4 +1,4 @@
-openapi: 4.0.0  
+openapi: 4.0.0
 info:
   title: Swagger Petstore - OpenAPI 4.0
   description: |-
@@ -18,38 +18,38 @@ info:
     url: http://www.apache.org/licenses/LICENSE-2.0.html
   version: 1.0.15
 paths:
-  "pet":   ## Path is a relative reference.  It needs to be anchored to a base by a servers URL. Or if you put an absolute URL in the path, it will be used as is.
+  "pet": ## Path is a relative reference.  It needs to be anchored to a base by a servers URL. Or if you put an absolute URL in the path, it will be used as is.
     requests:
-        CreatePet:  ## Operation name is elevated to be a key for requests but is only unique within the pathItem
-          method: POST
-          contentType: application/json
-          contentSchema:
-              $ref: "#/components/schemas/Pet"
-          responses:
-            Created:  ## response names can use conventions to map to request names
-                status: 201
-                contentType: application/json
-            FailPetCreate:
-                status: 400
-                contentType: application/http-problem
-        RetreivePets:
-            method: GET
-            responses:
-              Ok:
-                status: 200
-                contentType: application/json
-                contentSchema:
-                  type: array
-                  items:
-                    $ref: "#/components/schemas/Pet"
-              OkinCSV:
-                status: 200
-                contentType: text/csv
-                contentSchema:
-                  type: string
-              FailPetRetreive:
-                status: 400
-                contentType: application/http-problem
+      CreatePet: ## Operation name is elevated to be a key for requests but is only unique within the pathItem
+        method: POST
+        contentType: application/json
+        contentSchema:
+          $ref: "#/components/schemas/Pet"
+        responses:
+          Created: ## response names can use conventions to map to request names
+            status: 201
+            contentType: application/json
+          FailPetCreate:
+            status: 400
+            contentType: application/http-problem
+      RetreivePets:
+        method: GET
+        responses:
+          Ok:
+            status: 200
+            contentType: application/json
+            contentSchema:
+              type: array
+              items:
+                $ref: "#/components/schemas/Pet"
+          OkinCSV:
+            status: 200
+            contentType: text/csv
+            contentSchema:
+              type: string
+          FailPetRetreive:
+            status: 400
+            contentType: application/http-problem
   "pet/findByStatus?status={status}":
     requests:
       findPetsByStatus:
@@ -97,38 +97,38 @@ paths:
           FailBadTag:
             status: 400
             description: Invalid tag value
-  "pet/{petId}":  ## Paths support full UriTemplate syntax to enable disambiguation of operations by query parameters. This means we don't need all the style/explode hints in the parameter object.
+  "pet/{petId}": ## Paths support full UriTemplate syntax to enable disambiguation of operations by query parameters. This means we don't need all the style/explode hints in the parameter object.
     parameterSchema:
-        type: object
-        properties:
-            petId:
-                type: string
-                format: int64
+      type: object
+      properties:
+        petId:
+          type: string
+          format: int64
     requests:
       RetreivePet:
         method: GET
         responses:
-          retreived:      
-              status: 200
-              description: "The pet was retreived"  ## description is optional
-              contentType: application/json
-              contentSchema:
-                  $ref: "#/components/schemas/Pet"
+          retreived:
+            status: 200
+            description: "The pet was retreived" ## description is optional
+            contentType: application/json
+            contentSchema:
+              $ref: "#/components/schemas/Pet"
       UpdatePet:
         method: PUT
         contentType: application/json
         contentSchema:
-            $ref: "#/components/schemas/Pet"
+          $ref: "#/components/schemas/Pet"
         responses:
           Updated:
-              status: 200
-              description: "The pet was updated"
-              contentType: application/json
-              contentSchema:
-                  $ref: "#/components/schemas/Pet"
+            status: 200
+            description: "The pet was updated"
+            contentType: application/json
+            contentSchema:
+              $ref: "#/components/schemas/Pet"
           FailPetUpdate:
-              status: 400
-              description: "The pet was not updated"
+            status: 400
+            description: "The pet was not updated"
       UpdatePetWithForm:
         method: POST
         contentType: application/x-www-form-urlencoded
@@ -141,14 +141,14 @@ paths:
               type: string
         responses:
           Updated:
-              status: 200
-              description: "The pet was updated"
-              contentType: application/json
-              contentSchema:
-                  $ref: "#/components/schemas/Pet"
+            status: 200
+            description: "The pet was updated"
+            contentType: application/json
+            contentSchema:
+              $ref: "#/components/schemas/Pet"
           FailPetUpdate:
-              status: 400
-              description: "The pet was not updated"
+            status: 400
+            description: "The pet was not updated"
       DeletePet:
         method: DELETE
         responses:
@@ -157,18 +157,18 @@ paths:
             description: "The pet was deleted"
     responses:
       petNotFound:
-          status: 404
-          description: "The pet was not found"
+        status: 404
+        description: "The pet was not found"
       serverError:
-          status: 5XX
+        status: 5XX
   "pet/{petId}/uploadImage{?additionalMetadata}":
     parameterSchema:
-        properties:
-            petId:
-                type: string
-                format: uuid
-            additionalMetadata:
-                type: string
+      properties:
+        petId:
+          type: string
+          format: uuid
+        additionalMetadata:
+          type: string
     requests:
       uploadFile:
         summary: "Uploads an image"
@@ -176,12 +176,12 @@ paths:
         contentType: application/octet-stream
         responses:
           ok:
-              status: 200
-              contentType: application/json
-              contentSchema:
-                  $ref: "#/components/schemas/ApiResponse"
+            status: 200
+            contentType: application/json
+            contentSchema:
+              $ref: "#/components/schemas/ApiResponse"
           fail:
-              status: 400
+            status: 400
   "/store/order":
     requests:
       CreateOrder:
@@ -196,7 +196,7 @@ paths:
             contentSchema:
               $ref: "#/components/schemas/Order"
           FailOrderCreate:
-              status: 400
+            status: 400
       RetreiveOrders:
         method: GET
         responses:
@@ -204,11 +204,11 @@ paths:
             status: 200
             contentType: application/json
             contentSchema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Order"
+              type: array
+              items:
+                $ref: "#/components/schemas/Order"
           FailOrderRetreive:
-              status: 400
+            status: 400
   "/store/order/{orderId}":
     parameterSchema:
       properties:
@@ -225,7 +225,7 @@ paths:
             contentSchema:
               $ref: "#/components/schemas/Order"
           FailOrderRetreive:
-              status: 400
+            status: 400
       DeleteOrder:
         method: DELETE
         responses:
@@ -234,10 +234,10 @@ paths:
             description: "The order was deleted"
     responses:
       orderNotFound:
-          status: 404
-          description: "The order was not found"
+        status: 404
+        description: "The order was not found"
       serverError:
-          status: 5XX
+        status: 5XX
 components:
   schemas:
     Order:
@@ -286,7 +286,7 @@ components:
             name: addresses
             wrapped: true
           items:
-            $ref: '#/components/schemas/Address'
+            $ref: "#/components/schemas/Address"
       xml:
         name: customer
     Address:
@@ -303,7 +303,7 @@ components:
           example: CA
         zip:
           type: string
-          example: '94301'
+          example: "94301"
       xml:
         name: address
     Category:
@@ -339,10 +339,10 @@ components:
           example: john@email.com
         password:
           type: string
-          example: '12345'
+          example: "12345"
         phone:
           type: string
-          example: '12345'
+          example: "12345"
         userStatus:
           type: integer
           description: User Status
@@ -374,7 +374,7 @@ components:
           type: string
           example: doggie
         category:
-          $ref: '#/components/schemas/Category'
+          $ref: "#/components/schemas/Category"
         photoUrls:
           type: array
           xml:
@@ -388,7 +388,7 @@ components:
           xml:
             wrapped: true
           items:
-            $ref: '#/components/schemas/Tag'
+            $ref: "#/components/schemas/Tag"
         status:
           type: string
           description: pet status in the store
@@ -409,17 +409,17 @@ components:
         message:
           type: string
       xml:
-        name: '##default'
+        name: "##default"
   requestBodies:
     Pet:
       description: Pet object that needs to be added to the store
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Pet'
+            $ref: "#/components/schemas/Pet"
         application/xml:
           schema:
-            $ref: '#/components/schemas/Pet'
+            $ref: "#/components/schemas/Pet"
     UserArray:
       description: List of user object
       content:
@@ -427,7 +427,7 @@ components:
           schema:
             type: array
             items:
-              $ref: '#/components/schemas/User'
+              $ref: "#/components/schemas/User"
   securitySchemes:
     petstore_auth:
       type: oauth2
