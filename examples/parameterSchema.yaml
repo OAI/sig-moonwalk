@@ -3,7 +3,7 @@ info:
     title: Parameters defined at the path and at the request level
     version: 0.5.0
 paths:
-  'speakers/{speakerId}{?format}':  ## as format is optional, is does not need to be declared for each request, only the ones that use it
+  'speakers/{speakerId}{?format}':  ## as format is optional, it does not need to be declared for each request, only the ones that use it
       parameterSchema:
           type: object
           properties:
@@ -17,7 +17,7 @@ paths:
                   properties:
                       format:
                           type: string
-                          const: json  ## This example is shows how you use query parameters to distinction between requests.
+                          const: json  ## This example shows how you use query parameters to distinction between requests.
               method: get
               responses:
                   ok:
