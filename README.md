@@ -140,10 +140,8 @@ paths:
 
     get:
       responses:
-        201:
-          description: created
         200:
-          description: retreived
+          description: retrieved
           content:
             application/json:
               schema:
