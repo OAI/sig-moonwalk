@@ -32,7 +32,7 @@ classDiagram
   class response {
     status: string
     contentType: string
-    contentSchema: string
+    contentSchema: JSONSchema
   }  
 
 
