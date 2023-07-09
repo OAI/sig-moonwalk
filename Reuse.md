@@ -9,9 +9,15 @@ The initial moonwalk proposal was primarily focused on how to describe the paths
 - Naturally support the existing use cases of OpenAPI
 
 
+## Current sitation
+
 The description of an API contained in an OpenAPI document may actually be implemented by multiple APIs.  Or it may not be implemented by any. In the case of industry standards bodies defining API shapes, the API may be implemented by completely different organizations than those describing the API shape.
 
-OpenAPI v3 does not make a clear delineation between the shape of the API and certain implementation details of the API. For moonwalk this proposal suggest that we create a new object called `apiIndex` that captures the details of a specific deployment or instance of an API along with certain implementation characteristics.
+OpenAPI v3 does not make a clear delineation between the shape of the API and certain implementation details of the API. 
+
+## Proposal
+
+For moonwalk this proposal suggests that we create a new object called `deployment` that captures the deployment details of a specific instance of an API along with certain implementation characteristics.  The `deployment` object provides the information you need to be able to call API operations without providing any details about the shape of the API.
 
 ```mermaid
 classDiagram
@@ -19,14 +25,14 @@ classDiagram
 
   }
   OpenAPI --> Info:descriptionInfo
-  OpenAPI "0" --> "0-1" ApiIndex
+  OpenAPI "0" --> "0-1" Deployment
   
-  class ApiIndex {
+  class Deployment {
   }
-  ApiIndex --> Info:apiInfo
-  ApiIndex --> Server
-  ApiIndex --> TermsOfUse
-  ApiIndex --> Pricing
+  Deployment --> Info:apiInfo
+  Deployment --> Server
+  Deployment --> TermsOfUse
+  Deployment --> Pricing
   
   class Server {
   }
@@ -70,11 +76,11 @@ classDiagram
 
 ```
 
-A single OpenAPI document may contain zero or multiple  ApiIndex objects for the description contained within the OpenAPI document.
+A single OpenAPI document may contain zero or multiple  Deployment objects for the description contained within the OpenAPI document.
 
 ```yaml
 OpenApi: 4.0.0
-apiIndex:
+deployment:
     - apiInfo:
         title: "Production Hello API"
         version: 1.0
@@ -118,11 +124,11 @@ components:
                     type: string
 ```
 
-However, an OpenAPI document may also contain only ApiIndex entries and each ApiIndex object can contain a pointer to an external API Description.  This enables OpenAPI document files to fullfil the role of an API catalog.
+However, an OpenAPI document may also contain only Deployment entries and each Deployment object can contain a pointer to an external API Description.  This enables OpenAPI document files to fullfil the role of an API catalog.
 
 ```yaml
 openapi: 4.0.0
-apiIndex:
+deployment:
     - apiInfo:
         title: "API A"
         version: 1.0
