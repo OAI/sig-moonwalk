@@ -1,0 +1,46 @@
+OpenApi: 4.0.0
+apiIndex:
+    - apiInfo:
+        title: ""
+        version: 1.0
+      server: http://localhost:8080
+      pricing: {}
+      termsOfUse: {}
+      support: {}
+      security:
+          - basic: []
+      clientRegistrationUr: ""
+descriptionInfo:
+  title: ""
+paths:
+    /hello:
+        requests:
+          basic:
+            method: GET
+            summary: Hello
+            description: Hello
+            responses:
+              success:
+                status: '200'
+                contentType: application/json
+                contentSchema: HelloResponse
+              fail:
+                status: '5XX'
+                contentType: application/json
+                contentSchema: Error
+components:
+    schemas:
+        Error:
+            type: object
+            properties:
+                code:
+                    type: integer
+                    format: int32
+                message:
+                    type: string
+        HelloResponse:
+            type: object
+            properties:
+                message:
+                    type: string
+

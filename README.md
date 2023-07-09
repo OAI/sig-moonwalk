@@ -1,4 +1,4 @@
-# OpenAPI v4 (aka Moonwalk) Proposal
+# OpenAPI v4 (aka Moonwalk) Proposal 
 
 > note: Warning, disclaimer, caveat.  This is very early thinking and is subject to major change and potential abandonment.  However, intial reactions to the direction have been positive and so ready for input from a wider group of people.
 
