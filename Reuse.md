@@ -4,20 +4,20 @@ The initial moonwalk proposal was primarily focused on how to describe the paths
 
 ## Requirements:
 
-- Advertise a list of available API endpoints
-- Enable those API endpoints to either reuse descriptions or use different API descriptions (potentionally with different description formats)
+- Advertise a list of APIs that share an endpoint
+- Enable those APIs to either reuse descriptions or to use different API descriptions (potentionally with different description formats)
 - Naturally support the existing use cases of OpenAPI
 
 
 ## Current sitation
 
-The description of an API contained in an OpenAPI document may actually be implemented by multiple APIs.  Or it may not be implemented by any. In the case of industry standards bodies defining API shapes, the API may be implemented by completely different organizations than those describing the API shape.
+The description of an API contained in an OpenAPI document may actually be implemented by multiple services. Or it may not be implemented by any. In the case of industry standards bodies defining API shapes, the API may be implemented by completely different organizations than those describing the API shape.
 
-OpenAPI v3 does not make a clear delineation between the shape of the API and certain implementation details of the API. 
+OpenAPI v3 does not make a clear delineation between the shape of the API and certain implementation details of the API by intention. 
 
 ## Proposal
 
-For moonwalk this proposal suggests that we create a new object called `deployment` that captures the deployment details of a specific instance of an API along with certain implementation characteristics.  The `deployment` object provides the information you need to be able to call API operations without providing any details about the shape of the API.
+For moonwalk this proposal suggests that we create a new object called `deployment` that captures the deployment details of a specific instance of an API along with certain implementation characteristics.  The `deployment` object provides the context necessary you need to be able to call API operations without providing any details about the shape of the API.
 
 ```mermaid
 classDiagram
@@ -76,22 +76,22 @@ classDiagram
 
 ```
 
-A single OpenAPI document may contain zero or multiple  Deployment objects for the description contained within the OpenAPI document.
+A single OpenAPI document may contain zero or multiple Deployment objects for the description contained within the OpenAPI document.
 
 ```yaml
 OpenApi: 4.0.0
-deployment:
+deployments:
     - apiInfo:
         title: "Production Hello API"
         version: 1.0
-      server: http://localhost:8080
-      pricing: {}
+      location: http://localhost:8080 # might location be optional and assumed to be relative to the location of this document?
+      pricing: {} # is it a goal to support non-functional entitlement descriptions like pricing or TOS? Perhaps that is information that is better represented elsewhere for now?
       termsOfUse: {}
       support: {}
-      security:
+      security: 
           - basic: []
-      clientRegistrationUrl: ""
-descriptionInfo:
+      clientRegistrationUrl: "" # if there are different clientRegistrationUrls, then that implies different versions of this document?
+descriptionInfo: # why `descriptionInfo`?
   title: ""
 paths:
     /hello:
@@ -124,11 +124,13 @@ components:
                     type: string
 ```
 
-However, an OpenAPI document may also contain only Deployment entries and each Deployment object can contain a pointer to an external API Description.  This enables OpenAPI document files to fullfil the role of an API catalog.
+However, an OpenAPI document may also contain only Deployment entries and each Deployment object can contain a pointer to a separate API Description. This enables OpenAPI document files to fulfill the role of an API catalog.
+
+# Do we want this to fulfill the role of a catalog? It is not common to independently manage the various servers that fulfull the example deployments. It also runs into challenges around role-based access control for who can see what.
 
 ```yaml
 openapi: 4.0.0
-deployment:
+deployments:
     - apiInfo:
         title: "API A"
         version: 1.0
