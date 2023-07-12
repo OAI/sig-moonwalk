@@ -1,23 +1,23 @@
 # Moonwalk Document refactoring
 
-The initial moonwalk proposal was primarily focused on how to describe the paths, requests and responses of an API.  Further discussions around the growing needs of the API community have identified additional opportunities for improvement by refactoring the structure of the OpenAPI document and the elements it contains.
+The initial moonwalk proposal was primarily focused on how to describe the paths, requests, and responses of an API. Further discussions around the growing needs of the API community have identified additional opportunities for improvement by refactoring the structure of the OpenAPI document and the elements it contains. The first use case concerns improving lifecycle support as an API evolves.
 
 ## Requirements:
 
-- Advertise a list of APIs that share an endpoint
-- Enable those APIs to either reuse descriptions or to use different API descriptions (potentionally with different description formats)
-- Naturally support the existing use cases of OpenAPI
+- Decouple operations and schemas from the contexts (such as server or authentication) that are necessary to invoke those operations.
+- As an API changes over time, advertise a list of deployments that share a relationship to that API
+- Allow each deployment to independently refer to a different revisions of the description of that API as appropriate
+- Naturally support the existing use cases of OpenAPI, while also preserving the option to use other formats
 
+## Current situation
 
-## Current sitation
-
-The description of an API contained in an OpenAPI document may actually be implemented by multiple services. Or it may not be implemented by any. In the case of industry standards bodies defining API shapes, the API may be implemented by completely different organizations than those describing the API shape.
+The description of an API contained in an OpenAPI document may actually be addressable at multiple locations (deployments), or it may not be implemented by any. In the case of industry standards bodies defining API shapes, the API may be implemented by completely different organizations than those describing the API shape.
 
 OpenAPI v3 does not make a clear delineation between the shape of the API and certain implementation details of the API by intention. 
 
 ## Proposal
 
-For moonwalk this proposal suggests that we create a new object called `deployment` that captures the deployment details of a specific instance of an API along with certain implementation characteristics.  The `deployment` object provides the context necessary you need to be able to call API operations without providing any details about the shape of the API.
+For moonwalk this proposal suggests that we create a new object called `deployment` that captures the deployment details of a specific instance of an API along with certain implementation characteristics. The `deployment` object provides the context necessary to call API operations without providing any details about the shape of the API itself.
 
 ```mermaid
 classDiagram
@@ -30,9 +30,6 @@ classDiagram
   class Deployment {
   }
   Deployment --> Info:apiInfo
-  Deployment --> Server
-  Deployment --> TermsOfUse
-  Deployment --> Pricing
   
   class Server {
   }
@@ -76,23 +73,18 @@ classDiagram
 
 ```
 
-A single OpenAPI document may contain zero or multiple Deployment objects for the description contained within the OpenAPI document.
+In order to support a single-file expression, an OpenAPI document may contain zero or multiple Deployment objects that share the otherwise identical description contained within said OpenAPI document.
 
 ```yaml
 OpenApi: 4.0.0
 deployments:
-    - apiInfo:
-        title: "Production Hello API"
-        version: 1.0
-      location: http://localhost:8080 # might location be optional and assumed to be relative to the location of this document?
-      pricing: {} # is it a goal to support non-functional entitlement descriptions like pricing or TOS? Perhaps that is information that is better represented elsewhere for now?
-      termsOfUse: {}
-      support: {}
-      security: 
+    - title: "prod - ca"
+      location: https://api.example.ca
+      security:
           - basic: []
-      clientRegistrationUrl: "" # if there are different clientRegistrationUrls, then that implies different versions of this document?
-descriptionInfo: # why `descriptionInfo`?
-  title: ""
+      clientRegistrationUrl: "https://developers.example.com/catalog/accounts" # optional, identifies where credentials may be obtained
+      apiDescriptionUrl: "https://developers.example.com/catalog/accounts/openapi.2.0.2.yaml"
+
 paths:
     /hello:
         requests:
@@ -124,33 +116,27 @@ components:
                     type: string
 ```
 
-However, an OpenAPI document may also contain only Deployment entries and each Deployment object can contain a pointer to a separate API Description. This enables OpenAPI document files to fulfill the role of an API catalog.
-
-# Do we want this to fulfill the role of a catalog? It is not common to independently manage the various servers that fulfull the example deployments. It also runs into challenges around role-based access control for who can see what.
+However, an OpenAPI document may also contain **only** Deployment entries, and each Deployment object can contain a pointer to a distinct API description document. 
 
 ```yaml
 openapi: 4.0.0
 deployments:
-    - apiInfo:
-        title: "API A"
-        version: 1.0
-      server: http://localhost:8080/A
-      pricing: {}
-      termsOfUse: {}
-      support: {}
+    - title: "perf"
+      location: https://perf.api.example.com
       security:
           - basic: []
       clientRegistrationUrl: ""
-      apiDescriptionUrl: http://localhost:8080/A/openapi.json
-    - apiInfo:
-        title: "API B"
-        version: 1.0
-      server: http://localhost:8080/B
-      pricing: {}
-      termsOfUse: {}
-      support: {}
+      apiDescriptionUrl: "https://github.com/example-co/apis/blob/9182274701c279aedc4107fedf630639d7d70bbb/accounts/openapi.2.0.4.yaml"
+    - title: "prod - ca"
+      location: https://api.example.ca
       security:
           - basic: []
-      clientRegistrationUrl: ""
-      apiDescriptionUrl: http://localhost:8080/B/openapi.json
+      clientRegistrationUrl: "https://developers.example.com/catalog/accounts"
+      apiDescriptionUrl: "https://developers.example.com/catalog/accounts/openapi.2.0.2.yaml"
+    - title: "prod - us"
+      location: https://api.example.us
+      security:
+          - basic: []
+      clientRegistrationUrl: "https://developers.example.com/catalog/accounts"
+      apiDescriptionUrl: "https://developers.example.com/catalog/accounts/openapi.2.0.2.yaml"
 ```
