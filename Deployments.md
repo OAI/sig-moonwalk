@@ -78,7 +78,6 @@ deployments:
       security:
           - basic: []
       clientRegistrationUrl: "https://developers.example.com/catalog/accounts" # optional, identifies where credentials may be obtained
-      apiDescriptionUrl: "https://developers.example.com/catalog/accounts/openapi.2.0.2.yaml"
 
 paths:
     /hello:
