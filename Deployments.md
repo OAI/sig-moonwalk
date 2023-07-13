@@ -24,24 +24,19 @@ classDiagram
   class OpenAPI {
 
   }
-  OpenAPI --> Info:descriptionInfo
-  OpenAPI "0" --> "0-1" Deployment
+  
+  OpenAPI "0" --> "0-1" Deployment:deployments
   
   class Deployment {
-  }
-  Deployment --> Info:apiInfo
-  
-  class Server {
-  }
-
-  Server "0" --> "*" SecurityRequirement:security  
-
-  class Info {
     title: string
-    description: string
-    contact: string
-    version: string
+    location: string
+    clientRegistrationUrl: string
+    apiDescriptionUrl: string
   }
+
+  
+  Deployment "0" --> "0..*" SecurityRequirement:security  
+
 
   class SecurityRequirement {
 
