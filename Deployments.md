@@ -59,7 +59,7 @@ classDiagram
     parameterSchema: JSONSchema
   }
   request "0" --> "*" response:responses
-
+  request --> "0..*" Deployment:deployments
   class response {
     status: string
     contentType: string
@@ -73,7 +73,8 @@ In order to support a single-file expression, an OpenAPI document may contain ze
 ```yaml
 OpenApi: 4.0.0
 deployments:
-    - title: "prod - ca"
+    default: 
+      title: "prod - ca"
       location: https://api.example.ca
       security:
           - basic: []
@@ -83,6 +84,7 @@ paths:
     /hello:
         requests:
           basic:
+            deployments: ["default"]
             method: GET
             responses:
               success:
@@ -115,19 +117,22 @@ However, an OpenAPI document may also contain **only** Deployment entries, and e
 ```yaml
 openapi: 4.0.0
 deployments:
-    - title: "perf"
-      location: https://perf.api.example.com
+    test: 
+      title: "test"
+      location: https://test.api.example.com
       security:
           - basic: []
       clientRegistrationUrl: ""
       apiDescriptionUrl: "https://github.com/example-co/apis/blob/9182274701c279aedc4107fedf630639d7d70bbb/accounts/openapi.2.0.4.yaml"
-    - title: "prod - ca"
+    canada: 
+      title: "prod - ca"
       location: https://api.example.ca
       security:
           - basic: []
       clientRegistrationUrl: "https://developers.example.com/catalog/accounts"
       apiDescriptionUrl: "https://developers.example.com/catalog/accounts/openapi.2.0.2.yaml"
-    - title: "prod - us"
+    usa: 
+      title: "prod - us"
       location: https://api.example.us
       security:
           - basic: []
