@@ -72,6 +72,7 @@ In order to support a single-file expression, an OpenAPI document may contain ze
 
 ```yaml
 OpenApi: 4.0.0
+namespace: self
 deployments:
     default: 
       title: "prod - ca"
@@ -79,7 +80,12 @@ deployments:
       security:
           - basic: []
       clientRegistrationUrl: "https://developers.example.com/catalog/accounts" # optional, identifies where credentials may be obtained
-
+      apiPaths: self  // Do we really need this or can it be implicit?
+imports:
+  - namespace: something
+    href: https://example.org/somesharedstuff.json
+  - namespace: someotherthing
+    href: https://example.org/someothersharedstuff.json
 paths:
     /hello:
         requests:
@@ -90,11 +96,12 @@ paths:
               success:
                 status: '200'
                 contentType: application/json
-                contentSchema: HelloResponse
+                contentSchema: someotherthing.HelloResponse
               fail:
                 status: '5XX'
                 contentType: application/json
-                contentSchema: Error
+                contentSchema: something.Error
+
 components:
     schemas:
         Error:
@@ -123,19 +130,27 @@ deployments:
       security:
           - basic: []
       clientRegistrationUrl: ""
-      apiDescriptionUrl: "https://github.com/example-co/apis/blob/9182274701c279aedc4107fedf630639d7d70bbb/accounts/openapi.2.0.4.yaml"
+      apiPaths: test
     canada: 
       title: "prod - ca"
       location: https://api.example.ca
       security:
           - basic: []
       clientRegistrationUrl: "https://developers.example.com/catalog/accounts"
-      apiDescriptionUrl: "https://developers.example.com/catalog/accounts/openapi.2.0.2.yaml"
+      apiPaths: canada
     usa: 
       title: "prod - us"
       location: https://api.example.us
       security:
           - basic: []
       clientRegistrationUrl: "https://developers.example.com/catalog/accounts"
-      apiDescriptionUrl: "https://developers.example.com/catalog/accounts/openapi.2.0.2.yaml"
+      apiPaths: usa
+imports:
+  - namespace: test
+    href: https://github.com/example-co/apis/blob/9182274701c279aedc4107fedf630639d7d70bbb/accounts/openapi.2.0.4.yaml
+  - namespace: canada
+    href: https://developers.example.com/catalog/accounts/openapi.2.0.2.yaml
+  - namespace: usa
+    href: https://developers.example.com/catalog/accounts/openapi.2.0.2.yaml
+
 ```
