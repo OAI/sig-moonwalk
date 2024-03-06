@@ -1,5 +1,4 @@
 # OpenAPI v4 (aka Moonwalk) Proposal 
-Note: the info below represents early thinking about version 4 of the OpenAPI Specification. Since then, a number of principles for v4 have been declared and [published on the OAI blog](https://www.openapis.org/blog/2023/12/06/openapi-moonwalk-2024), and updates to this readme are forthcoming.
 
 > note: Warning, disclaimer, caveat.  This is very early thinking and is subject to major change and potential abandonment.  However, intial reactions to the direction have been positive and so ready for input from a wider group of people.
 
