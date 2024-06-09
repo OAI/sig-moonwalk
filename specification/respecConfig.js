@@ -23,16 +23,14 @@ var respecConfig = {
         name: "TBD"
       }
     ],
-    otherLinks: [
-      {
-          key: "Feedback",
-          data: [ 
-              {
-                  value: "GitHub Issues",
-                  href: "https://github.com/oai/moonwalk/issues"
-              }
-          ]
-      } 
-    ]
+    localBiblio: {
+        "CommonMark": {
+            "title": "CommonMark syntax",
+            "href": "https://spec.commonmark.org/",
+            "status": "Living Standard",
+            "publisher": "John MacFarlane"
+        }
+    }
+
   }
   

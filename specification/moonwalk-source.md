@@ -36,7 +36,8 @@ An OpenAPI definition can then be used by documentation generation tools to disp
 ## Definitions
 
 ##### OpenAPI Document
-A self-contained or composite resource which defines or describes an API or elements of an API. 
+An OpenAPI Description (OAD) formally describes the surface of an API and its semantics. It is composed of an [entry document](#documentStructure) and any/all of its referenced documents. 
+<p class="ednote">Need to define what are the required top level properties</p>
 
 ##### Media Types
 Media type definitions are spread across several resources.
@@ -57,9 +58,9 @@ Some examples of possible media type definitions:
 ```
 ##### HTTP Status Codes
 The HTTP Status Codes are used to indicate the status of the executed operation. 
-The available status codes are defined by [RFC7231](https://tools.ietf.org/html/rfc7231#section-6) and registered status codes are listed in the [IANA Status Code Registry](https://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml).
+Status codes SHOULD be selected from the available status codes registered in the [IANA Status Code Registry](https://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml).
 
-## Specification
+## Conventions
 
 ### Versions {#oas-version}
 
@@ -96,7 +97,7 @@ In order to preserve the ability to round-trip between YAML and JSON formats, YA
 
 ### Data Types
 
-TBD
+<p class="issue" data-number="131" >Replace this paragraph with a reference to the format registry</p>
 
 ### Rich Text Formatting
 Throughout the specification `description` fields are noted as supporting CommonMark markdown formatting.
@@ -117,7 +118,6 @@ Relative references in [`Schema Objects`](#schemaObject), including any that app
 Unless specified otherwise, all properties that are URLs MAY be relative references as defined by [RFC3986](https://tools.ietf.org/html/rfc3986#section-4.2).
 Unless specified otherwise, relative references are resolved using the URLs defined in the [`Server Object`](#serverObject) as a Base URL. Note that these themselves MAY be relative to the referring document.
 
-
 ### Specification Extensions
 
 While the OpenAPI Specification tries to accommodate most use cases, additional data can be added to extend the specification at certain points.
@@ -129,6 +129,60 @@ Field Pattern | Type | Description
 <a name="infoExtensions"></a>^x- | Any | Allows extensions to the OpenAPI Schema. The field name MUST begin with `x-`, for example, `x-internal-id`. Field names beginning `x-oai-` and `x-oas-` are reserved for uses defined by the [OpenAPI Initiative](https://www.openapis.org/). The value can be `null`, a primitive, an array or an object.
 
 The extensions may or may not be supported by the available tooling, but those may be extended as well to add requested support (if tools are internal or open-sourced).
+
+## Document Processing
+
+#### <a name="parsingDocuments"></a>Parsing Documents
+
+In order to properly handle [Schema Objects](#schemaObject), OAS 3.1 inherits the parsing requirements of [JSON Schema draft 2020-12 §9](https://datatracker.ietf.org/doc/html/draft-bhutton-json-schema-00#section-9), with appropriate modifications regarding base URIs as specified in [Relative References In URIs](#relativeReferencesURI).
+
+This includes a requirement to parse complete documents before deeming a Schema object reference to be unresolvable, in order to detect keywords that might provide the reference target or impact the determination of the appropriate base URI.
+
+Implementations MAY support complete-document parsing in any of the following ways:
+
+* Detecting OpenAPI or JSON Schema documents using media types
+* Detecting OpenAPI documents through the root `openapi` property
+* Detecting JSON Schema documents through detecting keywords or otherwise successfully parsing the document in accordance with the JSON Schema specification
+* Detecting a document containing a referenceable Object at its root based on the expected type of the reference
+* Allowing users to configure the type of documents that might be loaded due to a reference to a non-root Object
+
+Implementations that parse referenced fragments of OpenAPI content without regard for the content of the rest of the containing document will miss keywords that change the meaning and behavior of the reference target.
+In particular, failing to take into account keywords that change the base URI introduces security risks by causing references to resolve to unintended URIs, with unpredictable results.
+While some implementations support this sort of parsing due to the requirements of past versions of this specification, in version 3.1, the result of parsing fragments in isolation is _undefined_ and likely to contradict the requirements of this specification.
+
+While it is possible to structure certain OpenAPI Descriptions to ensure that they will behave correctly when references are parsed as isolated fragments, depending on this is NOT RECOMMENDED.
+This specification does not explicitly enumerate the conditions under which such behavior is safe, and provides no guarantee for continued safety in any future versions of the OAS.
+
+A special case of parsing fragments of OAS content would be if such fragments are embedded in another format, referred to as an _embedding format_ with respect to the OAS.
+Note that the OAS itself is an embedding format with respect to JSON Schema, which is embedded as Schema Objects.
+It is the responsibility of an embedding format to define how to parse embedded content, and OAS implementations that do not document support for an embedding format cannot be expected to parse embedded OAS content correctly.
+
+#### <a name="structuralInteroperability"></a>Structural Interoperability
+
+When parsing an OAD, JSON or YAML objects are parsed into specific Objects (such as [Operation Objects](#operationObject), [Response Objects](#responseObject), [Reference Objects](#referenceObject), etc.) based on the parsing context.  Depending on how references are arranged, a given JSON or YAML object can be parsed in multiple different contexts:
+
+* As a full OpenAPI Description document (an [OpenAPI Object](#oasObject) taking up an entire document)
+* As the Object type implied by its parent Object within the document
+* As a reference target, with the Object type matching the reference source's context
+
+If the same JSON/YAML object is parsed multiple times and the respective contexts require it to be parsed as _different_ Object types, the resulting behavior is _implementation defined_, and MAY be treated as an error if detected.  An example would be referencing an empty Schema Object under `#/components/schemas` where a Path Item Object is expected, as an empty object is valid for both types.  For maximum interoperability, it is RECOMMENDED that OpenAPI Description authors avoid such scenarios.
+
+#### <a name="resolvingImplicitConnections"></a>Resolving Implicit Connections
+
+
+#### Undefined and Implementation-Defined Behavior
+
+This specification deems certain situations to have either _undefined_ or _implementation-defined_ behavior.
+
+Behavior described as _undefined_ is likely, at least in some circumstances, to result in outcomes that contradict the specification.
+This description is used when detecting the contradiction is impossible or impractical.
+Implementations MAY support undefined scenarios for historical reasons, including ambiguous text in prior versions of the specification.
+This support might produce correct outcomes in many cases, but relying on it is NOT RECOMMENDED as there is no guarantee that it will work across all tools or with future specification versions, even if those versions are otherwise strictly compatible with this one.
+
+Behavior described as _implementation-defined_ allows implementations to choose which of several different-but-compliant approaches to a requirement to implement.
+This documents ambiguous requirements that API description authors are RECOMMENDED to avoid in order to maximize interoperability.
+Unlike undefined behavior, it is safe to rely on implementation-defined behavior if _and only if_ it can be guaranteed that all relevant tools support the same behavior.
+
 
 ## Document Structure
 
@@ -266,18 +320,19 @@ Describes a single API operation on a path.
 
 Field Name | Type | Description
 ---|:---:|---
-<a name="operationTags"></a>tags | [`string`] | A list of tags for API documentation control. Tags can be used for logical grouping of operations by resources or any other qualifier.
+<a name="operationId"></a>id | `string` | Unique string used to identify the operation. The id MUST be unique among all operations described in the API. The Id value is **case-sensitive**. Tools and libraries MAY use the Id to uniquely identify an operation, therefore, it is RECOMMENDED to follow common programming naming conventions.
+<a name="operationMethod"></a>method | `string` | The [HTTP] method used to invoke the operation.
+<a name="operationUriTemplate"></a>uriTemplate | `string` | A [[RFC6570]] URI template used to construct a URL to invoke the operation.
 <a name="operationSummary"></a>summary | `string` | A short summary of what the operation does.
-<a name="operationDescription"></a>description | `string` | A verbose explanation of the operation behavior. [CommonMark syntax](https://spec.commonmark.org/) MAY be used for rich text representation.
-<a name="operationExternalDocs"></a>externalDocs | [External Documentation Object](#external-documentation-object) | Additional external documentation for this operation.
-<a name="operationId"></a>operationId | `string` | Unique string used to identify the operation. The id MUST be unique among all operations described in the API. The operationId value is **case-sensitive**. Tools and libraries MAY use the operationId to uniquely identify an operation, therefore, it is RECOMMENDED to follow common programming naming conventions.
+<a name="operationDescription"></a>description | `string` | A verbose explanation of the operation behavior. [[CommonMark]] MAY be used for rich text representation.
 <a name="operationParameters"></a>parameters | [[Parameter Object](#parameter-object) \| [Reference Object](#reference-object)] | A list of parameters that are applicable for this operation. If a parameter is already defined at the [Path Item](#pathItemParameters), the new definition will override it but can never remove it. The list MUST NOT include duplicated parameters. A unique parameter is defined by a combination of a [name](#parameterName) and [location](#parameterIn). The list can use the [Reference Object](#reference-object) to link to parameters that are defined at the [OpenAPI Object's components/parameters](#componentsParameters).
 <a name="operationRequestBody"></a>requestBody | [Request Body Object](#request-body-object) \| [Reference Object](#reference-object) | The request body applicable for this operation.  The `requestBody` is fully supported in HTTP methods where the HTTP 1.1 specification [RFC7231](https://tools.ietf.org/html/rfc7231#section-4.3.1) has explicitly defined semantics for request bodies.  In other cases where the HTTP spec is vague (such as [GET](https://tools.ietf.org/html/rfc7231#section-4.3.1), [HEAD](https://tools.ietf.org/html/rfc7231#section-4.3.2) and [DELETE](https://tools.ietf.org/html/rfc7231#section-4.3.5)), `requestBody` is permitted but does not have well-defined semantics and SHOULD be avoided if possible.
 <a name="operationResponses"></a>responses | [Responses Object](#responses-object) | The list of possible responses as they are returned from executing this operation.
 <a name="operationCallbacks"></a>callbacks | Map[`string`, [Callback Object](#callback-object) \| [Reference Object](#reference-object)] | A map of possible out-of band callbacks related to the parent operation. The key is a unique identifier for the Callback Object. Each value in the map is a [Callback Object](#callback-object) that describes a request that may be initiated by the API provider and the expected responses.
-<a name="operationDeprecated"></a>deprecated | `boolean` | Declares this operation to be deprecated. Consumers SHOULD refrain from usage of the declared operation. Default value is `false`.
 <a name="operationSecurity"></a>security | [[Security Requirement Object](#security-requirement-object)] | A declaration of which security mechanisms can be used for this operation. The list of values includes alternative security requirement objects that can be used. Only one of the security requirement objects need to be satisfied to authorize a request. To make security optional, an empty security requirement (`{}`) can be included in the array. This definition overrides any declared top-level [`security`](#oasSecurity). To remove a top-level security declaration, an empty array can be used.
-<a name="operationServers"></a>servers | [[Server Object](#server-object)] | An alternative `server` array to service this operation. If an alternative `server` object is specified at the Path Item Object or Root level, it will be overridden by this value.
+<a name="operationTags"></a>tags | [`string`] | A list of tags for API documentation control. Tags can be used for logical grouping of operations by resources or any other qualifier.
+<a name="operationExternalDocs"></a>externalDocs | [External Documentation Object](#external-documentation-object) | Additional external documentation for this operation.
+<a name="operationDeprecated"></a>deprecated | `boolean` | Declares this operation to be deprecated. Consumers SHOULD refrain from usage of the declared operation. Default value is `false`.
 
 This object MAY be extended with [Specification Extensions](#specification-extensions).
 
@@ -404,8 +459,11 @@ TBD
 
 TBD
 
+## Appendix
 
-## Appendix A: Revision History
+<section class="appendix">
+
+## Revision History
 
 Version   | Date       | Notes
 ---       | ---        | ---
@@ -424,3 +482,9 @@ Version   | Date       | Notes
 1.2       | 2014-03-14 | Initial release of the formal document.
 1.1       | 2012-08-22 | Release of Swagger 1.1
 1.0       | 2011-08-10 | First release of the Swagger Specification
+
+</section>
+
+<section class="appendix" id="issue-summary">
+  <!-- A list of issues will magically appear here -->
+</section>
