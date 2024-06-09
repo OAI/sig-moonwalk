@@ -1,0 +1,15 @@
+openapi: 4.0.0
+operations:
+  - id: GetFlat
+    name: Get
+    method: GET
+    uriTemplate: /api/v1/flat
+    description: Get a list of flat objects
+    responses:
+      - status: 200
+        description: OK
+        contentType: application/json
+        schema: 
+          type: array
+          items:
+            $ref: '#/components/schemas/Flat'
