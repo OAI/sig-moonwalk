@@ -29,6 +29,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm install respec        
       - name: Generate Editors draft
         shell: powershell
         run: ./scripts/generate.ps1
