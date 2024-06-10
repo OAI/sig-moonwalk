@@ -34,7 +34,7 @@ jobs:
           node-version: 20
       - run: npm install respec        
       - name: Generate Editors draft
-        shell: powershell
+        shell: pwsh
         run: ./scripts/generate.ps1
       - name: Setup Pages
         uses: actions/configure-pages@v5
