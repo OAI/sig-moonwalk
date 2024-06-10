@@ -35,7 +35,7 @@ jobs:
       - run: npm install respec        
       - name: Generate Editors draft
         shell: pwsh
-        run: ./scripts/generate.ps1
+        run: ./scripts/Generate.ps1
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Build with Jekyll
