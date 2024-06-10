@@ -22,12 +22,20 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+
   # Build job
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm install respec        
+      - name: Generate Editors draft
+        shell: powershell
+        run: ./scripts/generate.ps1
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Build with Jekyll
