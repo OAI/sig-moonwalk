@@ -32,7 +32,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - run: npm install respec        
+      - run: npm install respec -g       
       - name: Generate Editors draft
         shell: pwsh
         run: ./scripts/Generate.ps1
