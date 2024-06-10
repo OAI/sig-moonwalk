@@ -3,13 +3,12 @@
 
 var respecConfig = {
     //preProcess: [loadYaml],
-    isPreview: true,
-    darkMode: true,
+ //   isPreview: true,
     format: "markdown",
     noTOC: false,
     maxTocLevel: 3,
-    additionalCopyrightHolders: "the Linux Foundation",
-    includePermalinks: true,
+//    additionalCopyrightHolders: "the Linux Foundation",
+//    includePermalinks: true,
     latestVersion: "https://spec.openapis.org/oas/v3.1.0",
     github: {
         repoURL: "https://github.com/OAI/sig-moonwalk/",
