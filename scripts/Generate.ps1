@@ -6,6 +6,8 @@ $ScriptFolder = Split-Path -Path $MyInvocation.MyCommand.Definition -Parent
 $SpecFolder = Join-Path -Path $ScriptFolder -ChildPath "..\specification"
 $OutputFolder = Join-Path -Path $ScriptFolder -ChildPath "..\doc"
 
+$Respec = Join-Path -Path $ScriptFolder -ChildPath "..\node_modules\.bin\respec"
+
 $HostFile = Join-Path -Path $SpecFolder -ChildPath ($SpecName + "-host.html")
 $SourceFile = Join-Path -Path $SpecFolder -ChildPath ($SpecName + "-source.md")
 $MergedFile = Join-Path -Path $SpecFolder -ChildPath ($SpecName + "-merged.html")
@@ -22,6 +24,6 @@ $template = $template -replace "<!-- CONTENT -->", $content
 $template | Set-Content $MergedFile
 
 # Do Respec processing on the merged file
-& respec --src $MergedFile --out $OutputFile
+& $Respec --src $MergedFile --out $OutputFile
 
 Remove-Item $MergedFile

@@ -1,0 +1,29 @@
+{
+  "name": "oas-moonwalk",
+  "version": "0.0.1",
+  "description": "OpenAPI Specification 4.0 Moonwalk",
+  "author": {
+    "name": "OpenAPI Initiative TSC",
+    "email": "tsc@openapis.org",
+    "url": "https://openapis.org/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/OAI/OpenAPI-Specification.git"
+  },
+  "license": "Apache-2.0",
+  "readmeFilename": "README.md",
+  "files": [
+    "README.md"
+  ],
+  "dependencies": {},
+  "devDependencies": {
+    "respec": "^35.1.0"
+  },
+  "keywords": [
+    "OpenAPI",
+    "OAS",
+    "Swagger",
+    "API"
+  ]
+}
