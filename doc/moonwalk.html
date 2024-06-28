@@ -1,6 +1,6 @@
 <!DOCTYPE html><html lang="en" dir="ltr"><head>
 <meta charset="utf-8">
-<meta name="generator" content="ReSpec 35.1.0">
+<meta name="generator" content="ReSpec 35.1.1">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <style>
 dfn{cursor:pointer}
@@ -62,7 +62,7 @@ aside.example .marker>a.self-link{color:inherit}
 .header-wrapper{display:flex;align-items:baseline}
 :is(h2,h3,h4,h5,h6):not(#toc>h2,#abstract>h2,#sotd>h2,.head>h2){position:relative;left:-.5em}
 :is(h2,h3,h4,h5,h6):not(#toch2)+a.self-link{color:inherit;order:-1;position:relative;left:-1.1em;font-size:1rem;opacity:.5}
-:is(h2,h3,h4,h5,h6)+a.self-link::before{content:"Â§";text-decoration:none;color:var(--heading-text)}
+:is(h2,h3,h4,h5,h6)+a.self-link::before{content:"§";text-decoration:none;color:var(--heading-text)}
 :is(h2,h3)+a.self-link{top:-.2em}
 :is(h4,h5,h6)+a.self-link::before{color:#000}
 @media (max-width:767px){
@@ -83,13 +83,9 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
 </style>
 <script id="initialUserConfig" type="application/json">{
   "format": "markdown",
-  "noTOC": false,
-  "maxTocLevel": 3,
-  "latestVersion": "https://spec.openapis.org/oas/v3.1.0",
-  "github": {
-    "repoURL": "https://github.com/OAI/sig-moonwalk/",
-    "branch": "main"
-  },
+  "latestVersion": "https://oai.github.io/sig-moonwalk/moonwalk.html",
+  "edDraftURI": "https://github.com/OAI/sig-moonwalk/blob/main/specification/moonwalk-source.md",
+  "subtitle": "Version 4.0.0-draft",
   "logos": [
     {
       "src": "https://raw.githubusercontent.com/OAI/OpenAPI-Style-Guide/master/graphics/bitmap/OpenAPI_Logo_Pantone.png",
@@ -105,6 +101,29 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
       "name": "TBD"
     }
   ],
+  "otherLinks": [
+    {
+      "key": "Participate",
+      "data": [
+        {
+          "value": "GitHub Moonwalk",
+          "href": "https://github.com/OAI/sig-moonwalk/"
+        },
+        {
+          "value": "File a bug",
+          "href": "https://github.com/OAI/sig-moonwalk/issues"
+        },
+        {
+          "value": "Commit history",
+          "href": "https://github.com/OAI/sig-moonwalk/commits/main/specification/moonwalk-source.md"
+        },
+        {
+          "value": "Pull requests",
+          "href": "https://github.com/OAI/sig-moonwalk/pulls"
+        }
+      ]
+    }
+  ],
   "localBiblio": {
     "CommonMark": {
       "title": "CommonMark syntax",
@@ -113,27 +132,25 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
       "publisher": "John MacFarlane"
     }
   },
-  "publishISODate": "2024-06-16T00:00:00.000Z",
-  "generatedSubtitle": "Unofficial Draft 16 June 2024"
+  "publishISODate": "2024-06-28T00:00:00.000Z",
+  "generatedSubtitle": "Unofficial Draft 28 June 2024"
 }</script>
 <link rel="stylesheet" href="https://www.w3.org/StyleSheets/TR/2021/W3C-UD"></head>
 
 <body class="h-entry toc-inline"><div class="head">
     <p class="logos"><a class="logo" href="https://openapis.org/"><img crossorigin="" alt="OpenAPI Initiative" height="48" src="https://raw.githubusercontent.com/OAI/OpenAPI-Style-Guide/master/graphics/bitmap/OpenAPI_Logo_Pantone.png">
   </a></p>
-    <h1 id="title" class="title">Moonwalk</h1> 
-    <p id="w3c-state">Unofficial Draft <time class="dt-published" datetime="2024-06-16">16 June 2024</time></p>
+    <h1 id="title" class="title">Moonwalk</h1> <h2 id="subtitle" class="subtitle">Version 4.0.0-draft</h2>
+    <p id="w3c-state">Unofficial Draft <time class="dt-published" datetime="2024-06-28">28 June 2024</time></p>
     <details open="">
       <summary>More details about this document</summary>
       <dl>
         
         <dt>Latest published version:</dt><dd>
-                <a href="https://spec.openapis.org/oas/v3.1.0">https://spec.openapis.org/oas/v3.1.0</a>
+                <a href="https://oai.github.io/sig-moonwalk/moonwalk.html">https://oai.github.io/sig-moonwalk/moonwalk.html</a>
               </dd>
-        <dt>Latest editor's draft:</dt><dd><a href="https://oai.github.io/sig-moonwalk/">https://oai.github.io/sig-moonwalk/</a></dd>
-        <dt>History:</dt><dd>
-                    <a href="https://github.com/OAI/sig-moonwalk/commits/main">Commit history</a>
-                  </dd>
+        <dt>Latest editor's draft:</dt><dd><a href="https://github.com/OAI/sig-moonwalk/blob/main/specification/moonwalk-source.md">https://github.com/OAI/sig-moonwalk/blob/main/specification/moonwalk-source.md</a></dd>
+        
         
         
         
@@ -144,62 +161,62 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
   </dd>
         
         
-        <dt>Feedback:</dt><dd>
-        <a href="https://github.com/OAI/sig-moonwalk/">GitHub OAI/sig-moonwalk</a>
-        (<a href="https://github.com/OAI/sig-moonwalk/pulls/">pull requests</a>,
-        <a href="https://github.com/OAI/sig-moonwalk/issues/new/choose">new issue</a>,
-        <a href="https://github.com/OAI/sig-moonwalk/issues/">open issues</a>)
-      </dd>
         
         
+        <dt>Participate</dt><dd>
+    <a href="https://github.com/OAI/sig-moonwalk/">GitHub Moonwalk</a>
+  </dd><dd>
+    <a href="https://github.com/OAI/sig-moonwalk/issues">File a bug</a>
+  </dd><dd>
+    <a href="https://github.com/OAI/sig-moonwalk/commits/main/specification/moonwalk-source.md">Commit history</a>
+  </dd><dd>
+    <a href="https://github.com/OAI/sig-moonwalk/pulls">Pull requests</a>
+  </dd>
       </dl>
     </details>
     
     
-    <p class="copyright">
-      Copyright ©
-      2024
-      the document editors/authors.
-      Text is available under the
-            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/legalcode">Creative Commons Attribution 4.0 International Public License</a>; additional terms may apply.
-    </p>
+    <p class="copyright">© 2024 the Linux Foundation</p>
     <hr title="Separator for header">
-  </div> <style>
+  </div>  <style>
 
-/* Override the default respec styling */
-pre > code { background: hsl(24, 20%, 95%); display: block; padding: 1em; margin: .5em 0; overflow: auto; border-radius: 0; }
-h1,h2,h3 { color: #629b34; }
-p#w3c-state { color: #629b34; }
-p#dt-published { color: #629b34; }
-a[href] { color: #45512c; }
-body:not(.toc-inline)
-#toc h2 { color: #45512c; }
-body:not(.toc-inline) #toc h2 { color: #45512c; }
-table { display: block; width: 100%; overflow: auto; }
-table th { font-weight: 600; }
-table th, table td { padding: 6px 13px; border: 1px solid #dfe2e5; }
-table tr { background-color: #fff; border-top: 1px solid #c6cbd1; }
-table tr:nth-child(2n) { background-color: #f6f8fa; }
-pre { background-color: #f6f8fa !important; }
-
+    /* Override the default respec styling */
+    pre > code { background: hsl(24, 20%, 95%); display: block; padding: 1em; margin: .5em 0; overflow: auto; border-radius: 0; }
+    h1,h2,h3 { color: #629b34; }
+    p#w3c-state { color: #629b34; }
+    p#dt-published { color: #629b34; }
+    a[href] { color: #45512c; }
+    body:not(.toc-inline)
+    #toc h2 { color: #45512c; }
+    body:not(.toc-inline) #toc h2 { color: #45512c; }
+    table { display: block; width: 100%; overflow: auto; }
+    table th { font-weight: 600; }
+    table th, table td { padding: 6px 13px; border: 1px solid #dfe2e5; }
+    table tr { background-color: #fff; border-top: 1px solid #c6cbd1; }
+    table tr:nth-child(2n) { background-color: #f6f8fa; }
+    pre { background-color: #f6f8fa !important; }
+  
 </style> 
+
+  
+
 <section class="introductory" id="current-status-of-document"><div class="header-wrapper"><h2 id="current-status-of-document-0">Current Status of Document</h2><a class="self-link" href="#current-status-of-document" aria-label="Permalink for this Section"></a></div>
 
 
-<p>This contents of this document have been gathered from a combination of the 3.1 specification and proposed changes for Moonwalk. <strong>None of the content in this document should be considered as product of consensus.</strong>  This is a working document for the purposes of getting the mechanics of publishing a document in place and beginning to discuss the overall structure of the document.</p>
+<p>This contents of this document have been gathered from a combination of the 3.1 specification and proposed changes for Moonwalk. <strong>None of the content in this document should be considered as product of consensus.</strong> This is a working document for the purposes of getting the mechanics of publishing a document in place and beginning to discuss the overall structure of the document.</p>
 </section>
 
 <section id="abstract" class="introductory"><h2>Abstract</h2>
 
 
 <p>The OpenAPI Specification (OAS) defines a standard, programming language-agnostic interface description for HTTP APIs, which allows both humans and computers to discover and understand the capabilities of a service without requiring access to source code, additional documentation, or inspection of network traffic. When properly defined via OpenAPI, a consumer can understand and interact with the remote service with a minimal amount of implementation logic. Similar to what interface descriptions have done for lower-level programming, the OpenAPI Specification removes guesswork in calling a service.</p>
-</section><nav id="toc"><h2 class="introductory" id="table-of-contents">Table of Contents</h2><ol class="toc"><li class="tocline"><a class="tocxref" href="#current-status-of-document">Current Status of Document</a></li><li class="tocline"><a class="tocxref" href="#abstract">Abstract</a></li><li class="tocline"><a class="tocxref" href="#introduction"><bdi class="secno">1. </bdi>Introduction</a></li><li class="tocline"><a class="tocxref" href="#definitions"><bdi class="secno">2. </bdi>Definitions</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#openapi-document"><bdi class="secno">2.1 </bdi>OpenAPI Document</a></li><li class="tocline"><a class="tocxref" href="#media-types"><bdi class="secno">2.2 </bdi>Media Types</a></li><li class="tocline"><a class="tocxref" href="#http-status-codes"><bdi class="secno">2.3 </bdi>HTTP Status Codes</a></li></ol></li><li class="tocline"><a class="tocxref" href="#conventions"><bdi class="secno">3. </bdi>Conventions</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#oas-version"><bdi class="secno">3.1 </bdi>Versions</a></li><li class="tocline"><a class="tocxref" href="#format"><bdi class="secno">3.2 </bdi>Format</a></li><li class="tocline"><a class="tocxref" href="#data-types"><bdi class="secno">3.3 </bdi>Data Types</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#working-with-binary-data"><bdi class="secno">3.3.1 </bdi>Working With Binary Data</a><ol class="toc"></ol></li></ol></li><li class="tocline"><a class="tocxref" href="#rich-text-formatting"><bdi class="secno">3.4 </bdi>Rich Text Formatting</a></li><li class="tocline"><a class="tocxref" href="#relative-references-in-uris"><bdi class="secno">3.5 </bdi>Relative References in URIs</a></li><li class="tocline"><a class="tocxref" href="#relative-references-in-urls"><bdi class="secno">3.6 </bdi>Relative References in URLs</a></li><li class="tocline"><a class="tocxref" href="#referencing-imports"><bdi class="secno">3.7 </bdi>Referencing Imports</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#using-imported-names"><bdi class="secno">3.7.1 </bdi>Using Imported Names</a></li><li class="tocline"><a class="tocxref" href="#referencing-a-complete-document"><bdi class="secno">3.7.2 </bdi>Referencing a Complete Document</a></li><li class="tocline"><a class="tocxref" href="#locating-and-loading-imported-resources"><bdi class="secno">3.7.3 </bdi>Locating and Loading Imported Resources</a></li><li class="tocline"><a class="tocxref" href="#security-considerations-for-url-retrieval"><bdi class="secno">3.7.4 </bdi>Security Considerations for URL Retrieval</a></li></ol></li><li class="tocline"><a class="tocxref" href="#specification-extensions"><bdi class="secno">3.8 </bdi>Specification Extensions</a></li></ol></li><li class="tocline"><a class="tocxref" href="#document-processing"><bdi class="secno">4. </bdi>Document Processing</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#parsing-documents"><bdi class="secno">4.1 </bdi>Parsing Documents</a></li><li class="tocline"><a class="tocxref" href="#structural-interoperability"><bdi class="secno">4.2 </bdi>Structural Interoperability</a></li><li class="tocline"><a class="tocxref" href="#resolving-implicit-connections"><bdi class="secno">4.3 </bdi>Resolving Implicit Connections</a></li><li class="tocline"><a class="tocxref" href="#undefined-and-implementation-defined-behavior"><bdi class="secno">4.4 </bdi>Undefined and Implementation-Defined Behavior</a></li></ol></li><li class="tocline"><a class="tocxref" href="#openapi-document-structure"><bdi class="secno">5. </bdi>OpenAPI Document Structure</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#general-fixed-fields"><bdi class="secno">5.1 </bdi>General Fixed Fields</a></li><li class="tocline"><a class="tocxref" href="#info-object"><bdi class="secno">5.2 </bdi>Info Object</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#info-object-fixed-fields"><bdi class="secno">5.2.1 </bdi>Fixed Fields</a></li><li class="tocline"><a class="tocxref" href="#info-object-example"><bdi class="secno">5.2.2 </bdi>Info Object Example</a></li></ol></li><li class="tocline"><a class="tocxref" href="#contact-object"><bdi class="secno">5.3 </bdi>Contact Object</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#fixed-fields-0"><bdi class="secno">5.3.1 </bdi>Fixed Fields</a></li><li class="tocline"><a class="tocxref" href="#contact-object-example"><bdi class="secno">5.3.2 </bdi>Contact Object Example</a></li></ol></li><li class="tocline"><a class="tocxref" href="#license-object"><bdi class="secno">5.4 </bdi>License Object</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#fixed-fields-1"><bdi class="secno">5.4.1 </bdi>Fixed Fields</a></li><li class="tocline"><a class="tocxref" href="#license-object-example"><bdi class="secno">5.4.2 </bdi>License Object Example</a></li></ol></li><li class="tocline"><a class="tocxref" href="#components-object"><bdi class="secno">5.5 </bdi>Components Object</a></li><li class="tocline"><a class="tocxref" href="#import-object"><bdi class="secno">5.6 </bdi>Import Object</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#fixed-fields-2"><bdi class="secno">5.6.1 </bdi>Fixed Fields</a></li></ol></li><li class="tocline"><a class="tocxref" href="#api-shape"><bdi class="secno">5.7 </bdi>API Shape</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#shape-fixed-fields"><bdi class="secno">5.7.1 </bdi>Shape Fixed Fields</a></li><li class="tocline"><a class="tocxref" href="#operation-object"><bdi class="secno">5.7.2 </bdi>Operation Object</a><ol class="toc"></ol></li></ol></li><li class="tocline"><a class="tocxref" href="#api-deployment"><bdi class="secno">5.8 </bdi>API Deployment</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#deployment-fixed-fields"><bdi class="secno">5.8.1 </bdi>Deployment Fixed Fields</a></li><li class="tocline"><a class="tocxref" href="#deployment-example"><bdi class="secno">5.8.2 </bdi>Deployment Example</a></li><li class="tocline"><a class="tocxref" href="#deployment-object"><bdi class="secno">5.8.3 </bdi>Deployment Object</a><ol class="toc"></ol></li><li class="tocline"><a class="tocxref" href="#security-scheme-object"><bdi class="secno">5.8.4 </bdi>Security Scheme Object</a><ol class="toc"></ol></li><li class="tocline"><a class="tocxref" href="#credential-object"><bdi class="secno">5.8.5 </bdi>Credential Object</a><ol class="toc"></ol></li><li class="tocline"><a class="tocxref" href="#security-config-object"><bdi class="secno">5.8.6 </bdi>Security Config Object</a><ol class="toc"></ol></li></ol></li></ol></li><li class="tocline"><a class="tocxref" href="#appendix"><bdi class="secno">6. </bdi>Appendix</a></li><li class="tocline"><a class="tocxref" href="#revision-history"><bdi class="secno">A. </bdi>Revision History</a></li></ol></nav>
+</section><nav id="toc"><h2 class="introductory" id="table-of-contents">Table of Contents</h2><ol class="toc"><li class="tocline"><a class="tocxref" href="#current-status-of-document">Current Status of Document</a></li><li class="tocline"><a class="tocxref" href="#abstract">Abstract</a></li><li class="tocline"><a class="tocxref" href="#introduction"><bdi class="secno">1. </bdi>Introduction</a></li><li class="tocline"><a class="tocxref" href="#definitions"><bdi class="secno">2. </bdi>Definitions</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#openapi-document"><bdi class="secno">2.1 </bdi>OpenAPI Document</a></li><li class="tocline"><a class="tocxref" href="#media-types"><bdi class="secno">2.2 </bdi>Media Types</a></li><li class="tocline"><a class="tocxref" href="#http-status-codes"><bdi class="secno">2.3 </bdi>HTTP Status Codes</a></li></ol></li><li class="tocline"><a class="tocxref" href="#conventions"><bdi class="secno">3. </bdi>Conventions</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#oas-version"><bdi class="secno">3.1 </bdi>Versions</a></li><li class="tocline"><a class="tocxref" href="#format"><bdi class="secno">3.2 </bdi>Format</a></li><li class="tocline"><a class="tocxref" href="#data-types"><bdi class="secno">3.3 </bdi>Data Types</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#working-with-binary-data"><bdi class="secno">3.3.1 </bdi>Working With Binary Data</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#migrating-binary-descriptions-from-oas-3-0"><bdi class="secno">3.3.1.1 </bdi>Migrating binary descriptions from OAS 3.0</a></li></ol></li></ol></li><li class="tocline"><a class="tocxref" href="#rich-text-formatting"><bdi class="secno">3.4 </bdi>Rich Text Formatting</a></li><li class="tocline"><a class="tocxref" href="#relative-references-in-uris"><bdi class="secno">3.5 </bdi>Relative References in URIs</a></li><li class="tocline"><a class="tocxref" href="#relative-references-in-urls"><bdi class="secno">3.6 </bdi>Relative References in URLs</a></li><li class="tocline"><a class="tocxref" href="#referencing-imports"><bdi class="secno">3.7 </bdi>Referencing Imports</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#using-imported-names"><bdi class="secno">3.7.1 </bdi>Using Imported Names</a></li><li class="tocline"><a class="tocxref" href="#referencing-a-complete-document"><bdi class="secno">3.7.2 </bdi>Referencing a Complete Document</a></li><li class="tocline"><a class="tocxref" href="#locating-and-loading-imported-resources"><bdi class="secno">3.7.3 </bdi>Locating and Loading Imported Resources</a></li><li class="tocline"><a class="tocxref" href="#security-considerations-for-url-retrieval"><bdi class="secno">3.7.4 </bdi>Security Considerations for URL Retrieval</a></li></ol></li><li class="tocline"><a class="tocxref" href="#specification-extensions"><bdi class="secno">3.8 </bdi>Specification Extensions</a></li></ol></li><li class="tocline"><a class="tocxref" href="#document-processing"><bdi class="secno">4. </bdi>Document Processing</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#parsing-documents"><bdi class="secno">4.1 </bdi>Parsing Documents</a></li><li class="tocline"><a class="tocxref" href="#structural-interoperability"><bdi class="secno">4.2 </bdi>Structural Interoperability</a></li><li class="tocline"><a class="tocxref" href="#resolving-implicit-connections"><bdi class="secno">4.3 </bdi>Resolving Implicit Connections</a></li><li class="tocline"><a class="tocxref" href="#undefined-and-implementation-defined-behavior"><bdi class="secno">4.4 </bdi>Undefined and Implementation-Defined Behavior</a></li></ol></li><li class="tocline"><a class="tocxref" href="#openapi-document-structure"><bdi class="secno">5. </bdi>OpenAPI Document Structure</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#general-fixed-fields"><bdi class="secno">5.1 </bdi>General Fixed Fields</a></li><li class="tocline"><a class="tocxref" href="#info-object"><bdi class="secno">5.2 </bdi>Info Object</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#info-object-fixed-fields"><bdi class="secno">5.2.1 </bdi>Fixed Fields</a></li><li class="tocline"><a class="tocxref" href="#info-object-example"><bdi class="secno">5.2.2 </bdi>Info Object Example</a></li></ol></li><li class="tocline"><a class="tocxref" href="#contact-object"><bdi class="secno">5.3 </bdi>Contact Object</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#fixed-fields-0"><bdi class="secno">5.3.1 </bdi>Fixed Fields</a></li><li class="tocline"><a class="tocxref" href="#contact-object-example"><bdi class="secno">5.3.2 </bdi>Contact Object Example</a></li></ol></li><li class="tocline"><a class="tocxref" href="#license-object"><bdi class="secno">5.4 </bdi>License Object</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#fixed-fields-1"><bdi class="secno">5.4.1 </bdi>Fixed Fields</a></li><li class="tocline"><a class="tocxref" href="#license-object-example"><bdi class="secno">5.4.2 </bdi>License Object Example</a></li></ol></li><li class="tocline"><a class="tocxref" href="#components-object"><bdi class="secno">5.5 </bdi>Components Object</a></li><li class="tocline"><a class="tocxref" href="#import-object"><bdi class="secno">5.6 </bdi>Import Object</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#fixed-fields-2"><bdi class="secno">5.6.1 </bdi>Fixed Fields</a></li></ol></li><li class="tocline"><a class="tocxref" href="#api-shape"><bdi class="secno">5.7 </bdi>API Shape</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#shape-fixed-fields"><bdi class="secno">5.7.1 </bdi>Shape Fixed Fields</a></li><li class="tocline"><a class="tocxref" href="#operation-object"><bdi class="secno">5.7.2 </bdi>Operation Object</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#fixed-fields-3"><bdi class="secno">5.7.2.1 </bdi>Fixed Fields</a></li><li class="tocline"><a class="tocxref" href="#operation-object-example"><bdi class="secno">5.7.2.2 </bdi>Operation Object Example</a></li></ol></li></ol></li><li class="tocline"><a class="tocxref" href="#api-deployment"><bdi class="secno">5.8 </bdi>API Deployment</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#deployment-fixed-fields"><bdi class="secno">5.8.1 </bdi>Deployment Fixed Fields</a></li><li class="tocline"><a class="tocxref" href="#deployment-example"><bdi class="secno">5.8.2 </bdi>Deployment Example</a></li><li class="tocline"><a class="tocxref" href="#deployment-object"><bdi class="secno">5.8.3 </bdi>Deployment Object</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#deployment-fixed-fields-0"><bdi class="secno">5.8.3.1 </bdi>Deployment Fixed Fields</a></li></ol></li><li class="tocline"><a class="tocxref" href="#security-scheme-object"><bdi class="secno">5.8.4 </bdi>Security Scheme Object</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#fixed-fields-4"><bdi class="secno">5.8.4.1 </bdi>Fixed Fields</a></li></ol></li><li class="tocline"><a class="tocxref" href="#credential-object"><bdi class="secno">5.8.5 </bdi>Credential Object</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#field-fields"><bdi class="secno">5.8.5.1 </bdi>Field Fields</a></li></ol></li><li class="tocline"><a class="tocxref" href="#security-config-object"><bdi class="secno">5.8.6 </bdi>Security Config Object</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#apikey-config-object"><bdi class="secno">5.8.6.1 </bdi>ApiKey Config Object</a></li><li class="tocline"><a class="tocxref" href="#oauth2-config-object"><bdi class="secno">5.8.6.2 </bdi>OAuth2 Config Object</a></li><li class="tocline"><a class="tocxref" href="#oidc-config-object"><bdi class="secno">5.8.6.3 </bdi>OIDC Config Object</a></li><li class="tocline"><a class="tocxref" href="#http-config-object"><bdi class="secno">5.8.6.4 </bdi>HTTP Config Object</a></li></ol></li></ol></li></ol></li><li class="tocline"><a class="tocxref" href="#appendix"><bdi class="secno">6. </bdi>Appendix</a></li><li class="tocline"><a class="tocxref" href="#revision-history"><bdi class="secno">A. </bdi>Revision History</a></li></ol></nav>
 
 <section id="conformance" class="introductory"><h1>Conformance</h1><p>As well as sections marked as non-normative, all authoring guidelines, diagrams, examples, and notes in this specification are non-normative. Everything else in this specification is normative.</p>
 
-<p>This document is licensed under <a href="https://www.apache.org/licenses/LICENSE-2.0.html">The Apache License, Version 2.0</a>.</p>
-</section>
 
+<p>This document is licensed under <a href="https://www.apache.org/licenses/LICENSE-2.0.html">The Apache License, Version 2.0</a>.  </p>
+</section>
 
 <section id="introduction"><div class="header-wrapper"><h2 id="x1-introduction"><bdi class="secno">1. </bdi>Introduction</h2><a class="self-link" href="#introduction" aria-label="Permalink for Section 1."></a></div>
 </section><section id="definitions"><div class="header-wrapper"><h2 id="x2-definitions"><bdi class="secno">2. </bdi>Definitions</h2><a class="self-link" href="#definitions" aria-label="Permalink for Section 2."></a></div>
