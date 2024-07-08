@@ -25,5 +25,8 @@
     "OAS",
     "Swagger",
     "API"
-  ]
+  ],
+  "scripts": {
+    "build": "pwsh scripts/Generate.ps1"
+  }
 }
