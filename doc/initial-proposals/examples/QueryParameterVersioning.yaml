@@ -1,0 +1,21 @@
+openapi: 4.0.0
+info:
+    title: Request signatures containing a version query parameter
+    version: 0.5.0
+paths:
+  'doThing?version=1':
+      requests:
+          doThingV1:  
+              method: get
+              responses:
+                  ok:
+                      status: 200
+                      contentType: application/json
+  'doThing?version=2':
+      requests:
+          doThingV2:  
+              method: post
+              responses:
+                  ok:
+                      status: 200
+                      contentType: application/json
