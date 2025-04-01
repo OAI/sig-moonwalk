@@ -18,117 +18,139 @@ This document is licensed under [The Apache License, Version 2.0](https://www.ap
 
 ## Definitions
 
-##### OpenAPI Document
+## Specification
 
-##### Media Types
+### Schema
+#### OpenAPI Object
 
-##### HTTP Status Codes
-
-## Conventions
-
-### Versions {#oas-version}
-
-### Format
-
-### Data Types
-
-#### Working With Binary Data
-
-##### Migrating binary descriptions from OAS 3.0
-
-### Rich Text Formatting
-
-### Relative References in URIs
-
-### Relative References in URLs
-
-### Referencing Imports
-
-#### Using Imported Names
-
-#### Referencing a Complete Document
-
-#### Locating and Loading Imported Resources
-
-#### Security Considerations for URL Retrieval
-
-### Specification Extensions
-
-## Document Processing
-
-#### Parsing Documents
-
-#### Structural Interoperability
-
-#### Resolving Implicit Connections
-
-#### Undefined and Implementation-Defined Behavior
-
-## OpenAPI Document Structure
-
-##### General Fixed Fields
-
-#### Info Object
-
-##### Fixed Fields {#info-object-fixed-fields}
-
-##### Info Object Example
-
-#### Contact Object
+This is the root object of the [OpenAPI Description](#openapi-description).
 
 ##### Fixed Fields
 
-##### Contact Object Example
+| Field Name | Type | Description |
+| ---- | :----: | ---- |
+| resources | [[Resources Object](#resources-object)] | A list of available resources for the API. |
+| signature | [[Signature Object](#signature-object)] | An object that defines the uniquely identifying characteristics of the HTTP requests for this API, unless redefined in a Resources Object. |
 
-#### License Object
 
-##### Fixed Fields
+This object MAY be extended with [Specification Extensions](#specification-extensions).
 
-##### License Object Example
+#### Resources Object
 
-#### Components Object
-
-#### Import Object
-
-##### Fixed Fields
-
-### API Shape
-
-##### Shape Fixed Fields
-
-#### Operation Object
+This object represents a set of HTTP resources with shared behavior and schemas.
 
 ##### Fixed Fields
 
-##### Operation Object Example
+| Field Name | Type | Description |
+| ---- | :----: | ---- |
+| uriTemplate | `string` | A RFC6570 URI template that matches the set of resources available resources for the API. |
+| operations | map[`string`,[Operation Object](#operation-object)] | A map of operation objects with a key that provides a descriptiptive identifier of the operation that is unique within the resource. |
+| signature | [Signature Object](#signature-object) | An object that defines the uniquely identifying characteristics of the HTTP requests for this Resources Object. |
 
-### API Deployment
+<aside class="issue">
+Should the signature object headers and pointers in the resource override the signature object at the document root, or should it be additive?
+</aside>
 
-##### Deployment Fixed Fields
+##### Examples
 
-##### Deployment Example
+Simple example of a CRUD api using a distinct resources object for the collection of items and an indiviual item.
 
-#### Deployment Object
+```yaml
+openapi: 4.0.0
+info:
+  title: Simple example
+  version: 1.0.0
+resources:
+  - uriTemplate: /items
+    operations:
+      listItems:
+        method: GET
+      createItem:
+        method: POST
+  - uriTemplate: /item/{id}
+    operations:
+      getItem:
+        method: GET
+        parameters:
+          - name: id
+      deleteItem:
+        method: DELETE
+        parameters:
+          - name: id
+```
 
-##### Deployment Fixed Fields
+This example leverages an optional path parameter to define a single resources object that has operations on the collection of items and a single item.
 
-#### Security Scheme Object
+```yaml
+openapi: 4.0.0
+info:
+  title: CRUD + List resource
+  version: 1.0.0
+resources:
+  - uriTemplate: /items{/id}
+    operations:
+      listItems:
+        method: GET
+      createItem:
+        method: POST
+      getItem:
+        method: GET
+        parameters:
+          - name: id
+      deleteItem:
+        method: DELETE
+        parameters:
+          - name: id
+```
+<aside class="issue">
+Do we need some kind of indicator in the resource level signature to identify that the presence of "id" parameter is used to select the operation? Or does uriTemplate cover this?
+</aside>
+
+Example of an RPC API using a HTTP header field as a discriminator.
+```yaml
+openapi: 4.0.0
+info:
+  title: RPC API
+  version: 1.0.0
+signature:
+  headers: [path]
+paths:
+  "/service":
+    operations:
+      createItem:
+        headers:
+          path:
+            schema:
+              const: service.CreateItem
+      updateItem:
+        method: post
+        headers:
+          path:
+            schema:
+              const: service.CreateItem
+```
+
+This object MAY be extended with [Specification Extensions](#specification-extensions).
+
+#### Signature Object
+
+This object defines the uniquely identifying characteristics of the HTTP requests. The purpose of this object is to enable matching of HTTP request instances to the corresponding Resource Object, when combined with the server URL.
 
 ##### Fixed Fields
 
-#### Credential Object
+| Field Name | Type | Description |
+| ---- | :----: | ---- |
+| uriTemplate | `boolean` | Indicates if the uriTemplate is part of the operation signature. Default true. |
+| httpMethod | `boolean` | Indicates if the HTTP method is part of the operation signature. Default true. |
+| headers | `[string]` | A list of response header field names whose values are used as part of the operation signature. |
+| pointers | `[string]` | A list of JSON pointers to request content to be used as part of the operation signature. |
 
-##### Field Fields
+<aside class="issue">
+This signature design is a strawperson I created. It has not been discussed and does not represent consensus of the group.
+</aside>
 
-#### Security Config Object
 
-##### ApiKey Config Object
-
-##### OAuth2 Config Object
-
-##### OIDC Config Object
-
-##### HTTP Config Object
+## Specification Extensions
 
 ## Appendix
 
