@@ -30,7 +30,7 @@ This is the root object of the [OpenAPI Description](#openapi-description).
 | Field Name | Type | Description |
 | ---- | :----: | ---- |
 | resources | [[Resources Object](#resources-object)] | A list of available resources for the API. |
-| signature | [[Signature Object](#signature-object)] | An object that defines the uniquely identifying characteristics of the HTTP requests for this API, unless redefined in a Resources Object. |
+| signature | [Signature Object](#signature-object) | An object that defines the uniquely identifying characteristics of the HTTP requests for this API, unless redefined in a Resources Object. |
 
 
 This object MAY be extended with [Specification Extensions](#specification-extensions).
@@ -46,6 +46,7 @@ This object represents a set of HTTP resources with shared behavior and schemas.
 | uriTemplate | `string` | A RFC6570 URI template that matches the set of resources available resources for the API. |
 | operations | map[`string`,[Operation Object](#operation-object)] | A map of operation objects with a key that provides a descriptiptive identifier of the operation that is unique within the resource. |
 | signature | [Signature Object](#signature-object) | An object that defines the uniquely identifying characteristics of the HTTP requests for this Resources Object. |
+| namespaces | string | Identifier that qualifies operation keys to ensure they are unique. |
 
 <aside class="issue">
 Should the signature object headers and pointers in the resource override the signature object at the document root, or should it be additive?
@@ -106,6 +107,42 @@ resources:
 Do we need some kind of indicator in the resource level signature to identify that the presence of "id" parameter is used to select the operation? Or does uriTemplate cover this?
 </aside>
 
+Example of using query parameters as part of the signature.
+
+```yaml
+openapi: 4.0.0
+info:
+  title: CRUD + List resource
+  version: 1.0.0
+resources:
+  - uriTemplate: /items{/id}{&summary}
+    operations:
+      listItemsInDetail:
+        method: GET
+        parameters:
+          - name: summary
+            schema:
+              type: boolean
+              const: false
+      listItemsSummary:
+        method: GET
+        parameters:
+          - name: summary
+            schema:
+              type: boolean
+              const: true
+      createItem:
+        method: POST
+      getItem:
+        method: GET
+        parameters:
+          - name: id
+      deleteItem:
+        method: DELETE
+        parameters:
+          - name: id
+```
+
 Example of an RPC API using a HTTP header field as a discriminator.
 ```yaml
 openapi: 4.0.0
@@ -113,21 +150,53 @@ info:
   title: RPC API
   version: 1.0.0
 signature:
-  headers: [path]
-paths:
+  elements: [$method, $uritemplate, $request.headers.action]
+resources:
   "/service":
     operations:
       createItem:
         headers:
-          path:
+          action:
             schema:
               const: service.CreateItem
       updateItem:
         method: post
         headers:
-          path:
+          action:
             schema:
               const: service.CreateItem
+```
+
+Example of a JSON RPC API using a HTTP header field as a discriminator.
+```yaml
+openapi: 4.0.0
+info:
+  title: MCP Server
+  version: 1.0.0
+signature:
+  pointers: ["/params/name"]
+resources:
+  "/mcpendpoint":
+    operations:
+      echo:
+        requestBody:
+          schema:
+            type: object
+            properties:
+              method:
+                type: string
+                const: "tool/call"
+              params:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    const: echo
+                  arguments:
+                    type: object
+                    properties:
+                      message:
+                        type: string
 ```
 
 This object MAY be extended with [Specification Extensions](#specification-extensions).
@@ -144,9 +213,10 @@ This object defines the uniquely identifying characteristics of the HTTP request
 | httpMethod | `boolean` | Indicates if the HTTP method is part of the operation signature. Default true. |
 | headers | `[string]` | A list of response header field names whose values are used as part of the operation signature. |
 | pointers | `[string]` | A list of JSON pointers to request content to be used as part of the operation signature. |
+| elements | `[runtimeExpressions]` | Alternate suggestion to having explicit headers and pointers properties.| 
 
 <aside class="issue">
-This signature design is a strawperson I created. It has not been discussed and does not represent consensus of the group.
+This signature design is a strawperson I created for the purpose of discussion.
 </aside>
 
 

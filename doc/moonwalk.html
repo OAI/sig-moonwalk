@@ -180,16 +180,16 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
       "publisher": "John MacFarlane"
     }
   },
-  "publishISODate": "2025-04-01T00:00:00.000Z",
-  "generatedSubtitle": "Unofficial Draft 01 April 2025"
+  "publishISODate": "2025-04-08T00:00:00.000Z",
+  "generatedSubtitle": "Unofficial Draft 08 April 2025"
 }</script>
 <link rel="stylesheet" href="https://www.w3.org/StyleSheets/TR/2021/W3C-UD"></head>
 
-<body class="h-entry"><div class="head">
+<body class="h-entry toc-inline"><div class="head">
     <p class="logos"><a class="logo" href="https://openapis.org/"><img crossorigin="" alt="OpenAPI Initiative" height="48" src="https://raw.githubusercontent.com/OAI/OpenAPI-Style-Guide/master/graphics/bitmap/OpenAPI_Logo_Pantone.png">
   </a></p>
     <h1 id="title" class="title">Moonwalk</h1> <h2 id="subtitle" class="subtitle">Version 4.0.0-draft</h2>
-    <p id="w3c-state">Unofficial Draft <time class="dt-published" datetime="2025-04-01">01 April 2025</time></p>
+    <p id="w3c-state">Unofficial Draft <time class="dt-published" datetime="2025-04-08">08 April 2025</time></p>
     <details open="">
       <summary>More details about this document</summary>
       <dl>
@@ -326,6 +326,11 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
 <td align="center"><a href="#signature-object">Signature Object</a></td>
 <td>An object that defines the uniquely identifying characteristics of the HTTP requests for this Resources Object.</td>
 </tr>
+<tr>
+<td>namespaces</td>
+<td align="center">string</td>
+<td>Identifier that qualifies operation keys to ensure they are unique.</td>
+</tr>
 </tbody></table>
 <div class="issue" id="issue-container-number-1"><div role="heading" class="issue-title marker" id="h-issue" aria-level="2"><span>Issue 1</span></div><aside class="">
 
@@ -390,21 +395,51 @@ info:
   title: RPC API
   version: 1.0.0
 signature:
-  headers: [path]
-paths:
+  elements: [$method, $uritemplate, $request.headers.action]
+resources:
   "/service":
     operations:
       createItem:
         headers:
-          path:
+          action:
             schema:
               const: service.CreateItem
       updateItem:
         method: post
         headers:
-          path:
+          action:
             schema:
               const: service.CreateItem
+</code></pre>
+<p>Example of a JSON RPC API using a HTTP header field as a discriminator.</p>
+<pre><code class="yaml hljs" aria-busy="false">openapi: 4.0.0
+info:
+  title: MCP Server
+  version: 1.0.0
+signature:
+  pointers: ["/params/name"]
+resources:
+  "/sse":
+    operations:
+      echo:
+        requestBody:
+          schema:
+            type: object
+            properties:
+              method:
+                type: string
+                const: "tool/call"
+              params:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    const: echo
+                  arguments:
+                    type: object
+                    properties:
+                      message:
+                        type: string
 </code></pre>
 <p>This object <em class="rfc2119">MAY</em> be extended with <a href="#specification-extensions">Specification Extensions</a>.</p>
 </section></section><section id="signature-object"><div class="header-wrapper"><h4 id="x3-1-3-signature-object"><bdi class="secno">3.1.3 </bdi>Signature Object</h4><a class="self-link" href="#signature-object" aria-label="Permalink for Section 3.1.3"></a></div>
@@ -437,6 +472,11 @@ paths:
 <td>pointers</td>
 <td align="center"><code>[string]</code></td>
 <td>A list of JSON pointers to request content to be used as part of the operation signature.</td>
+</tr>
+<tr>
+<td>elements</td>
+<td align="center"><code>[runtimeExpressions]</code></td>
+<td></td>
 </tr>
 </tbody></table>
 <div class="issue" id="issue-container-number-3"><div role="heading" class="issue-title marker" id="h-issue-1" aria-level="2"><span>Issue 3</span></div><aside class="">
