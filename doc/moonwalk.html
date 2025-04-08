@@ -1,7 +1,20 @@
 <!DOCTYPE html><html lang="en" dir="ltr"><head>
 <meta charset="utf-8">
-<meta name="generator" content="ReSpec 35.1.1">
+<meta name="generator" content="ReSpec 35.3.0">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<style>
+.issue-label{text-transform:initial}
+.warning>p:first-child{margin-top:0}
+.warning{padding:.5em;border-left-width:.5em;border-left-style:solid}
+span.warning{padding:.1em .5em .15em}
+.issue.closed span.issue-number{text-decoration:line-through}
+.issue.closed span.issue-number::after{content:" (Closed)";font-size:smaller}
+.warning{border-color:#f11;border-color:var(--warning-border,#f11);border-width:.2em;border-style:solid;background:#fbe9e9;background:var(--warning-bg,#fbe9e9);color:#000;color:var(--text,#000)}
+.warning-title:before{content:"⚠";font-size:1.3em;float:left;padding-right:.3em;margin-top:-.3em}
+li.task-list-item{list-style:none}
+input.task-list-item-checkbox{margin:0 .35em .25em -1.6em;vertical-align:middle}
+.issue a.respec-gh-label{padding:5px;margin:0 2px 0 2px;font-size:10px;text-transform:none;text-decoration:none;font-weight:700;border-radius:4px;position:relative;bottom:2px;border:none;display:inline-block}
+</style>
 <style>
 dfn{cursor:pointer}
 .dfn-panel{position:absolute;z-index:35;min-width:300px;max-width:500px;padding:.5em .75em;margin-top:.6em;font-family:"Helvetica Neue",sans-serif;font-size:small;background:#fff;background:var(--indextable-hover-bg,#fff);color:#000;color:var(--text,#000);box-shadow:0 1em 3em -.4em rgba(0,0,0,.3),0 0 1px 1px rgba(0,0,0,.05);box-shadow:0 1em 3em -.4em var(--tocsidebar-shadow,rgba(0,0,0,.3)),0 0 1px 1px var(--tocsidebar-shadow,rgba(0,0,0,.05));border-radius:2px}
@@ -75,6 +88,41 @@ dd{margin-left:0}
 <meta name="color-scheme" content="light">
 <meta name="description" content="The OpenAPI Specification (OAS) defines a standard, programming language-agnostic interface description for HTTP APIs, which allows both humans and computers to discover and understand the capabilities of a service without requiring access to source code, additional documentation, or inspection of network traffic. When properly defined via OpenAPI, a consumer can understand and interact with the remote service with a minimal amount of implementation logic. Similar to what interface descriptions have done for lower-level programming, the OpenAPI Specification removes guesswork in calling a service.">
 <style>
+.hljs{--base:#fafafa;--mono-1:#383a42;--mono-2:#686b77;--mono-3:#717277;--hue-1:#0b76c5;--hue-2:#336ae3;--hue-3:#a626a4;--hue-4:#42803c;--hue-5:#ca4706;--hue-5-2:#c91243;--hue-6:#986801;--hue-6-2:#9a6a01}
+@media (prefers-color-scheme:dark){
+.hljs{--base:#282c34;--mono-1:#abb2bf;--mono-2:#818896;--mono-3:#5c6370;--hue-1:#56b6c2;--hue-2:#61aeee;--hue-3:#c678dd;--hue-4:#98c379;--hue-5:#e06c75;--hue-5-2:#be5046;--hue-6:#d19a66;--hue-6-2:#e6c07b}
+}
+.hljs{display:block;overflow-x:auto;padding:.5em;color:#383a42;color:var(--mono-1,#383a42);background:#fafafa;background:var(--base,#fafafa)}
+.hljs-comment,.hljs-quote{color:#717277;color:var(--mono-3,#717277);font-style:italic}
+.hljs-doctag,.hljs-formula,.hljs-keyword{color:#a626a4;color:var(--hue-3,#a626a4)}
+.hljs-deletion,.hljs-name,.hljs-section,.hljs-selector-tag,.hljs-subst{color:#ca4706;color:var(--hue-5,#ca4706);font-weight:700}
+.hljs-literal{color:#0b76c5;color:var(--hue-1,#0b76c5)}
+.hljs-addition,.hljs-attribute,.hljs-meta-string,.hljs-regexp,.hljs-string{color:#42803c;color:var(--hue-4,#42803c)}
+.hljs-built_in,.hljs-class .hljs-title{color:#9a6a01;color:var(--hue-6-2,#9a6a01)}
+.hljs-attr,.hljs-number,.hljs-selector-attr,.hljs-selector-class,.hljs-selector-pseudo,.hljs-template-variable,.hljs-type,.hljs-variable{color:#986801;color:var(--hue-6,#986801)}
+.hljs-bullet,.hljs-link,.hljs-meta,.hljs-selector-id,.hljs-symbol,.hljs-title{color:#336ae3;color:var(--hue-2,#336ae3)}
+.hljs-emphasis{font-style:italic}
+.hljs-strong{font-weight:700}
+.hljs-link{text-decoration:underline}
+</style>
+<style>
+var:hover{text-decoration:underline;cursor:pointer}
+var.respec-hl{color:var(--color,#000);background-color:var(--bg-color);box-shadow:0 0 0 2px var(--bg-color)}
+@media (prefers-color-scheme:dark){
+var.respec-hl{filter:saturate(.9) brightness(.9)}
+}
+var.respec-hl-c1{--bg-color:#f4d200}
+var.respec-hl-c2{--bg-color:#ff87a2}
+var.respec-hl-c3{--bg-color:#96e885}
+var.respec-hl-c4{--bg-color:#3eeed2}
+var.respec-hl-c5{--bg-color:#eacfb6}
+var.respec-hl-c6{--bg-color:#82ddff}
+var.respec-hl-c7{--bg-color:#ffbcf2}
+@media print{
+var.respec-hl{background:0 0;color:#000;box-shadow:unset}
+}
+</style>
+<style>
 var{position:relative;cursor:pointer}
 var[data-type]::after,var[data-type]::before{position:absolute;left:50%;top:-6px;opacity:0;transition:opacity .4s;pointer-events:none}
 var[data-type]::before{content:"";transform:translateX(-50%);border-width:4px 6px 0 6px;border-style:solid;border-color:transparent;border-top-color:#222}
@@ -132,8 +180,8 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
       "publisher": "John MacFarlane"
     }
   },
-  "publishISODate": "2024-07-01T00:00:00.000Z",
-  "generatedSubtitle": "Unofficial Draft 01 July 2024"
+  "publishISODate": "2025-04-08T00:00:00.000Z",
+  "generatedSubtitle": "Unofficial Draft 08 April 2025"
 }</script>
 <link rel="stylesheet" href="https://www.w3.org/StyleSheets/TR/2021/W3C-UD"></head>
 
@@ -141,7 +189,7 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
     <p class="logos"><a class="logo" href="https://openapis.org/"><img crossorigin="" alt="OpenAPI Initiative" height="48" src="https://raw.githubusercontent.com/OAI/OpenAPI-Style-Guide/master/graphics/bitmap/OpenAPI_Logo_Pantone.png">
   </a></p>
     <h1 id="title" class="title">Moonwalk</h1> <h2 id="subtitle" class="subtitle">Version 4.0.0-draft</h2>
-    <p id="w3c-state">Unofficial Draft <time class="dt-published" datetime="2024-07-01">01 July 2024</time></p>
+    <p id="w3c-state">Unofficial Draft <time class="dt-published" datetime="2025-04-08">08 April 2025</time></p>
     <details open="">
       <summary>More details about this document</summary>
       <dl>
@@ -211,9 +259,15 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
 
 
 <p>The OpenAPI Specification (OAS) defines a standard, programming language-agnostic interface description for HTTP APIs, which allows both humans and computers to discover and understand the capabilities of a service without requiring access to source code, additional documentation, or inspection of network traffic. When properly defined via OpenAPI, a consumer can understand and interact with the remote service with a minimal amount of implementation logic. Similar to what interface descriptions have done for lower-level programming, the OpenAPI Specification removes guesswork in calling a service.</p>
-</section><nav id="toc"><h2 class="introductory" id="table-of-contents">Table of Contents</h2><ol class="toc"><li class="tocline"><a class="tocxref" href="#current-status-of-document">Current Status of Document</a></li><li class="tocline"><a class="tocxref" href="#abstract">Abstract</a></li><li class="tocline"><a class="tocxref" href="#introduction"><bdi class="secno">1. </bdi>Introduction</a></li><li class="tocline"><a class="tocxref" href="#definitions"><bdi class="secno">2. </bdi>Definitions</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#openapi-document"><bdi class="secno">2.1 </bdi>OpenAPI Document</a></li><li class="tocline"><a class="tocxref" href="#media-types"><bdi class="secno">2.2 </bdi>Media Types</a></li><li class="tocline"><a class="tocxref" href="#http-status-codes"><bdi class="secno">2.3 </bdi>HTTP Status Codes</a></li></ol></li><li class="tocline"><a class="tocxref" href="#conventions"><bdi class="secno">3. </bdi>Conventions</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#oas-version"><bdi class="secno">3.1 </bdi>Versions</a></li><li class="tocline"><a class="tocxref" href="#format"><bdi class="secno">3.2 </bdi>Format</a></li><li class="tocline"><a class="tocxref" href="#data-types"><bdi class="secno">3.3 </bdi>Data Types</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#working-with-binary-data"><bdi class="secno">3.3.1 </bdi>Working With Binary Data</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#migrating-binary-descriptions-from-oas-3-0"><bdi class="secno">3.3.1.1 </bdi>Migrating binary descriptions from OAS 3.0</a></li></ol></li></ol></li><li class="tocline"><a class="tocxref" href="#rich-text-formatting"><bdi class="secno">3.4 </bdi>Rich Text Formatting</a></li><li class="tocline"><a class="tocxref" href="#relative-references-in-uris"><bdi class="secno">3.5 </bdi>Relative References in URIs</a></li><li class="tocline"><a class="tocxref" href="#relative-references-in-urls"><bdi class="secno">3.6 </bdi>Relative References in URLs</a></li><li class="tocline"><a class="tocxref" href="#referencing-imports"><bdi class="secno">3.7 </bdi>Referencing Imports</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#using-imported-names"><bdi class="secno">3.7.1 </bdi>Using Imported Names</a></li><li class="tocline"><a class="tocxref" href="#referencing-a-complete-document"><bdi class="secno">3.7.2 </bdi>Referencing a Complete Document</a></li><li class="tocline"><a class="tocxref" href="#locating-and-loading-imported-resources"><bdi class="secno">3.7.3 </bdi>Locating and Loading Imported Resources</a></li><li class="tocline"><a class="tocxref" href="#security-considerations-for-url-retrieval"><bdi class="secno">3.7.4 </bdi>Security Considerations for URL Retrieval</a></li></ol></li><li class="tocline"><a class="tocxref" href="#specification-extensions"><bdi class="secno">3.8 </bdi>Specification Extensions</a></li></ol></li><li class="tocline"><a class="tocxref" href="#document-processing"><bdi class="secno">4. </bdi>Document Processing</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#parsing-documents"><bdi class="secno">4.1 </bdi>Parsing Documents</a></li><li class="tocline"><a class="tocxref" href="#structural-interoperability"><bdi class="secno">4.2 </bdi>Structural Interoperability</a></li><li class="tocline"><a class="tocxref" href="#resolving-implicit-connections"><bdi class="secno">4.3 </bdi>Resolving Implicit Connections</a></li><li class="tocline"><a class="tocxref" href="#undefined-and-implementation-defined-behavior"><bdi class="secno">4.4 </bdi>Undefined and Implementation-Defined Behavior</a></li></ol></li><li class="tocline"><a class="tocxref" href="#openapi-document-structure"><bdi class="secno">5. </bdi>OpenAPI Document Structure</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#general-fixed-fields"><bdi class="secno">5.1 </bdi>General Fixed Fields</a></li><li class="tocline"><a class="tocxref" href="#info-object"><bdi class="secno">5.2 </bdi>Info Object</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#info-object-fixed-fields"><bdi class="secno">5.2.1 </bdi>Fixed Fields</a></li><li class="tocline"><a class="tocxref" href="#info-object-example"><bdi class="secno">5.2.2 </bdi>Info Object Example</a></li></ol></li><li class="tocline"><a class="tocxref" href="#contact-object"><bdi class="secno">5.3 </bdi>Contact Object</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#fixed-fields-0"><bdi class="secno">5.3.1 </bdi>Fixed Fields</a></li><li class="tocline"><a class="tocxref" href="#contact-object-example"><bdi class="secno">5.3.2 </bdi>Contact Object Example</a></li></ol></li><li class="tocline"><a class="tocxref" href="#license-object"><bdi class="secno">5.4 </bdi>License Object</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#fixed-fields-1"><bdi class="secno">5.4.1 </bdi>Fixed Fields</a></li><li class="tocline"><a class="tocxref" href="#license-object-example"><bdi class="secno">5.4.2 </bdi>License Object Example</a></li></ol></li><li class="tocline"><a class="tocxref" href="#components-object"><bdi class="secno">5.5 </bdi>Components Object</a></li><li class="tocline"><a class="tocxref" href="#import-object"><bdi class="secno">5.6 </bdi>Import Object</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#fixed-fields-2"><bdi class="secno">5.6.1 </bdi>Fixed Fields</a></li></ol></li><li class="tocline"><a class="tocxref" href="#api-shape"><bdi class="secno">5.7 </bdi>API Shape</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#shape-fixed-fields"><bdi class="secno">5.7.1 </bdi>Shape Fixed Fields</a></li><li class="tocline"><a class="tocxref" href="#operation-object"><bdi class="secno">5.7.2 </bdi>Operation Object</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#fixed-fields-3"><bdi class="secno">5.7.2.1 </bdi>Fixed Fields</a></li><li class="tocline"><a class="tocxref" href="#operation-object-example"><bdi class="secno">5.7.2.2 </bdi>Operation Object Example</a></li></ol></li></ol></li><li class="tocline"><a class="tocxref" href="#api-deployment"><bdi class="secno">5.8 </bdi>API Deployment</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#deployment-fixed-fields"><bdi class="secno">5.8.1 </bdi>Deployment Fixed Fields</a></li><li class="tocline"><a class="tocxref" href="#deployment-example"><bdi class="secno">5.8.2 </bdi>Deployment Example</a></li><li class="tocline"><a class="tocxref" href="#deployment-object"><bdi class="secno">5.8.3 </bdi>Deployment Object</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#deployment-fixed-fields-0"><bdi class="secno">5.8.3.1 </bdi>Deployment Fixed Fields</a></li></ol></li><li class="tocline"><a class="tocxref" href="#security-scheme-object"><bdi class="secno">5.8.4 </bdi>Security Scheme Object</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#fixed-fields-4"><bdi class="secno">5.8.4.1 </bdi>Fixed Fields</a></li></ol></li><li class="tocline"><a class="tocxref" href="#credential-object"><bdi class="secno">5.8.5 </bdi>Credential Object</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#field-fields"><bdi class="secno">5.8.5.1 </bdi>Field Fields</a></li></ol></li><li class="tocline"><a class="tocxref" href="#security-config-object"><bdi class="secno">5.8.6 </bdi>Security Config Object</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#apikey-config-object"><bdi class="secno">5.8.6.1 </bdi>ApiKey Config Object</a></li><li class="tocline"><a class="tocxref" href="#oauth2-config-object"><bdi class="secno">5.8.6.2 </bdi>OAuth2 Config Object</a></li><li class="tocline"><a class="tocxref" href="#oidc-config-object"><bdi class="secno">5.8.6.3 </bdi>OIDC Config Object</a></li><li class="tocline"><a class="tocxref" href="#http-config-object"><bdi class="secno">5.8.6.4 </bdi>HTTP Config Object</a></li></ol></li></ol></li></ol></li><li class="tocline"><a class="tocxref" href="#appendix"><bdi class="secno">6. </bdi>Appendix</a></li><li class="tocline"><a class="tocxref" href="#revision-history"><bdi class="secno">A. </bdi>Revision History</a></li></ol></nav>
+</section><nav id="toc"><h2 class="introductory" id="table-of-contents">Table of Contents</h2><ol class="toc"><li class="tocline"><a class="tocxref" href="#current-status-of-document">Current Status of Document</a></li><li class="tocline"><a class="tocxref" href="#abstract">Abstract</a></li><li class="tocline"><a class="tocxref" href="#introduction"><bdi class="secno">1. </bdi>Introduction</a></li><li class="tocline"><a class="tocxref" href="#definitions"><bdi class="secno">2. </bdi>Definitions</a></li><li class="tocline"><a class="tocxref" href="#specification"><bdi class="secno">3. </bdi>Specification</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#schema"><bdi class="secno">3.1 </bdi>Schema</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#openapi-object"><bdi class="secno">3.1.1 </bdi>OpenAPI Object</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#fixed-fields"><bdi class="secno">3.1.1.1 </bdi>Fixed Fields</a></li></ol></li><li class="tocline"><a class="tocxref" href="#resources-object"><bdi class="secno">3.1.2 </bdi>Resources Object</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#fixed-fields-0"><bdi class="secno">3.1.2.1 </bdi>Fixed Fields</a></li><li class="tocline"><a class="tocxref" href="#examples"><bdi class="secno">3.1.2.2 </bdi>Examples</a></li></ol></li><li class="tocline"><a class="tocxref" href="#signature-object"><bdi class="secno">3.1.3 </bdi>Signature Object</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#fixed-fields-1"><bdi class="secno">3.1.3.1 </bdi>Fixed Fields</a></li></ol></li></ol></li></ol></li><li class="tocline"><a class="tocxref" href="#specification-extensions"><bdi class="secno">4. </bdi>Specification Extensions</a></li><li class="tocline"><a class="tocxref" href="#appendix"><bdi class="secno">5. </bdi>Appendix</a></li><li class="tocline"><a class="tocxref" href="#revision-history"><bdi class="secno">A. </bdi>Revision History</a></li><li class="tocline"><a class="tocxref" href="#issue-summary"><bdi class="secno">B. </bdi>Issue summary</a></li><li class="tocline"><a class="tocxref" href="#references"><bdi class="secno">C. </bdi>References</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#normative-references"><bdi class="secno">C.1 </bdi>Normative references</a></li></ol></li></ol></nav>
 
-<section id="conformance" class="introductory"><h1>Conformance</h1><p>As well as sections marked as non-normative, all authoring guidelines, diagrams, examples, and notes in this specification are non-normative. Everything else in this specification is normative.</p>
+<section id="conformance" class="introductory"><h1>Conformance</h1><p>As well as sections marked as non-normative, all authoring guidelines, diagrams, examples, and notes in this specification are non-normative. Everything else in this specification is normative.</p><p>
+        The key word <em class="rfc2119">MAY</em> in this document
+        is to be interpreted as described in
+        <a href="https://www.rfc-editor.org/info/bcp14">BCP 14</a>
+        [<cite><a class="bibref" data-link-type="biblio" href="#bib-rfc2119" title="Key words for use in RFCs to Indicate Requirement Levels">RFC2119</a></cite>] [<cite><a class="bibref" data-link-type="biblio" href="#bib-rfc8174" title="Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words">RFC8174</a></cite>]
+        when, and only when, they appear in all capitals, as shown here.
+      </p>
 
 
 <p>This document is licensed under <a href="https://www.apache.org/licenses/LICENSE-2.0.html">The Apache License, Version 2.0</a>.  </p>
@@ -221,61 +275,219 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
 
 <section id="introduction"><div class="header-wrapper"><h2 id="x1-introduction"><bdi class="secno">1. </bdi>Introduction</h2><a class="self-link" href="#introduction" aria-label="Permalink for Section 1."></a></div>
 </section><section id="definitions"><div class="header-wrapper"><h2 id="x2-definitions"><bdi class="secno">2. </bdi>Definitions</h2><a class="self-link" href="#definitions" aria-label="Permalink for Section 2."></a></div>
-<section id="openapi-document"><div class="header-wrapper"><h3 id="x2-1-openapi-document"><bdi class="secno">2.1 </bdi>OpenAPI Document</h3><a class="self-link" href="#openapi-document" aria-label="Permalink for Section 2.1"></a></div>
-</section><section id="media-types"><div class="header-wrapper"><h3 id="x2-2-media-types"><bdi class="secno">2.2 </bdi>Media Types</h3><a class="self-link" href="#media-types" aria-label="Permalink for Section 2.2"></a></div>
-</section><section id="http-status-codes"><div class="header-wrapper"><h3 id="x2-3-http-status-codes"><bdi class="secno">2.3 </bdi>HTTP Status Codes</h3><a class="self-link" href="#http-status-codes" aria-label="Permalink for Section 2.3"></a></div>
-</section></section><section id="conventions"><div class="header-wrapper"><h2 id="x3-conventions"><bdi class="secno">3. </bdi>Conventions</h2><a class="self-link" href="#conventions" aria-label="Permalink for Section 3."></a></div>
-<section id="versions"><div class="header-wrapper"><h3 id="oas-version"><bdi class="secno">3.1 </bdi>Versions</h3><a class="self-link" href="#oas-version" aria-label="Permalink for Section 3.1"></a></div></section><section id="format"><div class="header-wrapper"><h3 id="x3-2-format"><bdi class="secno">3.2 </bdi>Format</h3><a class="self-link" href="#format" aria-label="Permalink for Section 3.2"></a></div>
-</section><section id="data-types"><div class="header-wrapper"><h3 id="x3-3-data-types"><bdi class="secno">3.3 </bdi>Data Types</h3><a class="self-link" href="#data-types" aria-label="Permalink for Section 3.3"></a></div>
-<section id="working-with-binary-data"><div class="header-wrapper"><h4 id="x3-3-1-working-with-binary-data"><bdi class="secno">3.3.1 </bdi>Working With Binary Data</h4><a class="self-link" href="#working-with-binary-data" aria-label="Permalink for Section 3.3.1"></a></div>
-<section id="migrating-binary-descriptions-from-oas-3-0"><div class="header-wrapper"><h5 id="x3-3-1-1-migrating-binary-descriptions-from-oas-3-0"><bdi class="secno">3.3.1.1 </bdi>Migrating binary descriptions from OAS 3.0</h5><a class="self-link" href="#migrating-binary-descriptions-from-oas-3-0" aria-label="Permalink for Section 3.3.1.1"></a></div>
-</section></section></section><section id="rich-text-formatting"><div class="header-wrapper"><h3 id="x3-4-rich-text-formatting"><bdi class="secno">3.4 </bdi>Rich Text Formatting</h3><a class="self-link" href="#rich-text-formatting" aria-label="Permalink for Section 3.4"></a></div>
-</section><section id="relative-references-in-uris"><div class="header-wrapper"><h3 id="x3-5-relative-references-in-uris"><bdi class="secno">3.5 </bdi>Relative References in URIs</h3><a class="self-link" href="#relative-references-in-uris" aria-label="Permalink for Section 3.5"></a></div>
-</section><section id="relative-references-in-urls"><div class="header-wrapper"><h3 id="x3-6-relative-references-in-urls"><bdi class="secno">3.6 </bdi>Relative References in URLs</h3><a class="self-link" href="#relative-references-in-urls" aria-label="Permalink for Section 3.6"></a></div>
-</section><section id="referencing-imports"><div class="header-wrapper"><h3 id="x3-7-referencing-imports"><bdi class="secno">3.7 </bdi>Referencing Imports</h3><a class="self-link" href="#referencing-imports" aria-label="Permalink for Section 3.7"></a></div>
-<section id="using-imported-names"><div class="header-wrapper"><h4 id="x3-7-1-using-imported-names"><bdi class="secno">3.7.1 </bdi>Using Imported Names</h4><a class="self-link" href="#using-imported-names" aria-label="Permalink for Section 3.7.1"></a></div>
-</section><section id="referencing-a-complete-document"><div class="header-wrapper"><h4 id="x3-7-2-referencing-a-complete-document"><bdi class="secno">3.7.2 </bdi>Referencing a Complete Document</h4><a class="self-link" href="#referencing-a-complete-document" aria-label="Permalink for Section 3.7.2"></a></div>
-</section><section id="locating-and-loading-imported-resources"><div class="header-wrapper"><h4 id="x3-7-3-locating-and-loading-imported-resources"><bdi class="secno">3.7.3 </bdi>Locating and Loading Imported Resources</h4><a class="self-link" href="#locating-and-loading-imported-resources" aria-label="Permalink for Section 3.7.3"></a></div>
-</section><section id="security-considerations-for-url-retrieval"><div class="header-wrapper"><h4 id="x3-7-4-security-considerations-for-url-retrieval"><bdi class="secno">3.7.4 </bdi>Security Considerations for URL Retrieval</h4><a class="self-link" href="#security-considerations-for-url-retrieval" aria-label="Permalink for Section 3.7.4"></a></div>
-</section></section><section id="specification-extensions"><div class="header-wrapper"><h3 id="x3-8-specification-extensions"><bdi class="secno">3.8 </bdi>Specification Extensions</h3><a class="self-link" href="#specification-extensions" aria-label="Permalink for Section 3.8"></a></div>
-</section></section><section id="document-processing"><div class="header-wrapper"><h2 id="x4-document-processing"><bdi class="secno">4. </bdi>Document Processing</h2><a class="self-link" href="#document-processing" aria-label="Permalink for Section 4."></a></div>
-<section id="parsing-documents"><div class="header-wrapper"><h3 id="x4-1-parsing-documents"><bdi class="secno">4.1 </bdi>Parsing Documents</h3><a class="self-link" href="#parsing-documents" aria-label="Permalink for Section 4.1"></a></div>
-</section><section id="structural-interoperability"><div class="header-wrapper"><h3 id="x4-2-structural-interoperability"><bdi class="secno">4.2 </bdi>Structural Interoperability</h3><a class="self-link" href="#structural-interoperability" aria-label="Permalink for Section 4.2"></a></div>
-</section><section id="resolving-implicit-connections"><div class="header-wrapper"><h3 id="x4-3-resolving-implicit-connections"><bdi class="secno">4.3 </bdi>Resolving Implicit Connections</h3><a class="self-link" href="#resolving-implicit-connections" aria-label="Permalink for Section 4.3"></a></div>
-</section><section id="undefined-and-implementation-defined-behavior"><div class="header-wrapper"><h3 id="x4-4-undefined-and-implementation-defined-behavior"><bdi class="secno">4.4 </bdi>Undefined and Implementation-Defined Behavior</h3><a class="self-link" href="#undefined-and-implementation-defined-behavior" aria-label="Permalink for Section 4.4"></a></div>
-</section></section><section id="openapi-document-structure"><div class="header-wrapper"><h2 id="x5-openapi-document-structure"><bdi class="secno">5. </bdi>OpenAPI Document Structure</h2><a class="self-link" href="#openapi-document-structure" aria-label="Permalink for Section 5."></a></div>
-<section id="general-fixed-fields"><div class="header-wrapper"><h3 id="x5-1-general-fixed-fields"><bdi class="secno">5.1 </bdi>General Fixed Fields</h3><a class="self-link" href="#general-fixed-fields" aria-label="Permalink for Section 5.1"></a></div>
-</section><section id="info-object"><div class="header-wrapper"><h3 id="x5-2-info-object"><bdi class="secno">5.2 </bdi>Info Object</h3><a class="self-link" href="#info-object" aria-label="Permalink for Section 5.2"></a></div>
-<section id="fixed-fields"><div class="header-wrapper"><h4 id="info-object-fixed-fields"><bdi class="secno">5.2.1 </bdi>Fixed Fields</h4><a class="self-link" href="#info-object-fixed-fields" aria-label="Permalink for Section 5.2.1"></a></div></section><section id="info-object-example"><div class="header-wrapper"><h4 id="x5-2-2-info-object-example"><bdi class="secno">5.2.2 </bdi>Info Object Example</h4><a class="self-link" href="#info-object-example" aria-label="Permalink for Section 5.2.2"></a></div>
-</section></section><section id="contact-object"><div class="header-wrapper"><h3 id="x5-3-contact-object"><bdi class="secno">5.3 </bdi>Contact Object</h3><a class="self-link" href="#contact-object" aria-label="Permalink for Section 5.3"></a></div>
-<section id="fixed-fields-0"><div class="header-wrapper"><h4 id="x5-3-1-fixed-fields"><bdi class="secno">5.3.1 </bdi>Fixed Fields</h4><a class="self-link" href="#fixed-fields-0" aria-label="Permalink for Section 5.3.1"></a></div>
-</section><section id="contact-object-example"><div class="header-wrapper"><h4 id="x5-3-2-contact-object-example"><bdi class="secno">5.3.2 </bdi>Contact Object Example</h4><a class="self-link" href="#contact-object-example" aria-label="Permalink for Section 5.3.2"></a></div>
-</section></section><section id="license-object"><div class="header-wrapper"><h3 id="x5-4-license-object"><bdi class="secno">5.4 </bdi>License Object</h3><a class="self-link" href="#license-object" aria-label="Permalink for Section 5.4"></a></div>
-<section id="fixed-fields-1"><div class="header-wrapper"><h4 id="x5-4-1-fixed-fields"><bdi class="secno">5.4.1 </bdi>Fixed Fields</h4><a class="self-link" href="#fixed-fields-1" aria-label="Permalink for Section 5.4.1"></a></div>
-</section><section id="license-object-example"><div class="header-wrapper"><h4 id="x5-4-2-license-object-example"><bdi class="secno">5.4.2 </bdi>License Object Example</h4><a class="self-link" href="#license-object-example" aria-label="Permalink for Section 5.4.2"></a></div>
-</section></section><section id="components-object"><div class="header-wrapper"><h3 id="x5-5-components-object"><bdi class="secno">5.5 </bdi>Components Object</h3><a class="self-link" href="#components-object" aria-label="Permalink for Section 5.5"></a></div>
-</section><section id="import-object"><div class="header-wrapper"><h3 id="x5-6-import-object"><bdi class="secno">5.6 </bdi>Import Object</h3><a class="self-link" href="#import-object" aria-label="Permalink for Section 5.6"></a></div>
-<section id="fixed-fields-2"><div class="header-wrapper"><h4 id="x5-6-1-fixed-fields"><bdi class="secno">5.6.1 </bdi>Fixed Fields</h4><a class="self-link" href="#fixed-fields-2" aria-label="Permalink for Section 5.6.1"></a></div>
-</section></section><section id="api-shape"><div class="header-wrapper"><h3 id="x5-7-api-shape"><bdi class="secno">5.7 </bdi>API Shape</h3><a class="self-link" href="#api-shape" aria-label="Permalink for Section 5.7"></a></div>
-<section id="shape-fixed-fields"><div class="header-wrapper"><h4 id="x5-7-1-shape-fixed-fields"><bdi class="secno">5.7.1 </bdi>Shape Fixed Fields</h4><a class="self-link" href="#shape-fixed-fields" aria-label="Permalink for Section 5.7.1"></a></div>
-</section><section id="operation-object"><div class="header-wrapper"><h4 id="x5-7-2-operation-object"><bdi class="secno">5.7.2 </bdi>Operation Object</h4><a class="self-link" href="#operation-object" aria-label="Permalink for Section 5.7.2"></a></div>
-<section id="fixed-fields-3"><div class="header-wrapper"><h5 id="x5-7-2-1-fixed-fields"><bdi class="secno">5.7.2.1 </bdi>Fixed Fields</h5><a class="self-link" href="#fixed-fields-3" aria-label="Permalink for Section 5.7.2.1"></a></div>
-</section><section id="operation-object-example"><div class="header-wrapper"><h5 id="x5-7-2-2-operation-object-example"><bdi class="secno">5.7.2.2 </bdi>Operation Object Example</h5><a class="self-link" href="#operation-object-example" aria-label="Permalink for Section 5.7.2.2"></a></div>
-</section></section></section><section id="api-deployment"><div class="header-wrapper"><h3 id="x5-8-api-deployment"><bdi class="secno">5.8 </bdi>API Deployment</h3><a class="self-link" href="#api-deployment" aria-label="Permalink for Section 5.8"></a></div>
-<section id="deployment-fixed-fields"><div class="header-wrapper"><h4 id="x5-8-1-deployment-fixed-fields"><bdi class="secno">5.8.1 </bdi>Deployment Fixed Fields</h4><a class="self-link" href="#deployment-fixed-fields" aria-label="Permalink for Section 5.8.1"></a></div>
-</section><section id="deployment-example"><div class="header-wrapper"><h4 id="x5-8-2-deployment-example"><bdi class="secno">5.8.2 </bdi>Deployment Example</h4><a class="self-link" href="#deployment-example" aria-label="Permalink for Section 5.8.2"></a></div>
-</section><section id="deployment-object"><div class="header-wrapper"><h4 id="x5-8-3-deployment-object"><bdi class="secno">5.8.3 </bdi>Deployment Object</h4><a class="self-link" href="#deployment-object" aria-label="Permalink for Section 5.8.3"></a></div>
-<section id="deployment-fixed-fields-0"><div class="header-wrapper"><h5 id="x5-8-3-1-deployment-fixed-fields"><bdi class="secno">5.8.3.1 </bdi>Deployment Fixed Fields</h5><a class="self-link" href="#deployment-fixed-fields-0" aria-label="Permalink for Section 5.8.3.1"></a></div>
-</section></section><section id="security-scheme-object"><div class="header-wrapper"><h4 id="x5-8-4-security-scheme-object"><bdi class="secno">5.8.4 </bdi>Security Scheme Object</h4><a class="self-link" href="#security-scheme-object" aria-label="Permalink for Section 5.8.4"></a></div>
-<section id="fixed-fields-4"><div class="header-wrapper"><h5 id="x5-8-4-1-fixed-fields"><bdi class="secno">5.8.4.1 </bdi>Fixed Fields</h5><a class="self-link" href="#fixed-fields-4" aria-label="Permalink for Section 5.8.4.1"></a></div>
-</section></section><section id="credential-object"><div class="header-wrapper"><h4 id="x5-8-5-credential-object"><bdi class="secno">5.8.5 </bdi>Credential Object</h4><a class="self-link" href="#credential-object" aria-label="Permalink for Section 5.8.5"></a></div>
-<section id="field-fields"><div class="header-wrapper"><h5 id="x5-8-5-1-field-fields"><bdi class="secno">5.8.5.1 </bdi>Field Fields</h5><a class="self-link" href="#field-fields" aria-label="Permalink for Section 5.8.5.1"></a></div>
-</section></section><section id="security-config-object"><div class="header-wrapper"><h4 id="x5-8-6-security-config-object"><bdi class="secno">5.8.6 </bdi>Security Config Object</h4><a class="self-link" href="#security-config-object" aria-label="Permalink for Section 5.8.6"></a></div>
-<section id="apikey-config-object"><div class="header-wrapper"><h5 id="x5-8-6-1-apikey-config-object"><bdi class="secno">5.8.6.1 </bdi>ApiKey Config Object</h5><a class="self-link" href="#apikey-config-object" aria-label="Permalink for Section 5.8.6.1"></a></div>
-</section><section id="oauth2-config-object"><div class="header-wrapper"><h5 id="x5-8-6-2-oauth2-config-object"><bdi class="secno">5.8.6.2 </bdi>OAuth2 Config Object</h5><a class="self-link" href="#oauth2-config-object" aria-label="Permalink for Section 5.8.6.2"></a></div>
-</section><section id="oidc-config-object"><div class="header-wrapper"><h5 id="x5-8-6-3-oidc-config-object"><bdi class="secno">5.8.6.3 </bdi>OIDC Config Object</h5><a class="self-link" href="#oidc-config-object" aria-label="Permalink for Section 5.8.6.3"></a></div>
-</section><section id="http-config-object"><div class="header-wrapper"><h5 id="x5-8-6-4-http-config-object"><bdi class="secno">5.8.6.4 </bdi>HTTP Config Object</h5><a class="self-link" href="#http-config-object" aria-label="Permalink for Section 5.8.6.4"></a></div>
-</section></section></section></section><section id="appendix"><div class="header-wrapper"><h2 id="x6-appendix"><bdi class="secno">6. </bdi>Appendix</h2><a class="self-link" href="#appendix" aria-label="Permalink for Section 6."></a></div>
+</section><section id="specification"><div class="header-wrapper"><h2 id="x3-specification"><bdi class="secno">3. </bdi>Specification</h2><a class="self-link" href="#specification" aria-label="Permalink for Section 3."></a></div>
+<section id="schema"><div class="header-wrapper"><h3 id="x3-1-schema"><bdi class="secno">3.1 </bdi>Schema</h3><a class="self-link" href="#schema" aria-label="Permalink for Section 3.1"></a></div>
+<section id="openapi-object"><div class="header-wrapper"><h4 id="x3-1-1-openapi-object"><bdi class="secno">3.1.1 </bdi>OpenAPI Object</h4><a class="self-link" href="#openapi-object" aria-label="Permalink for Section 3.1.1"></a></div>
+<p>This is the root object of the <a href="#openapi-description" class="respec-offending-element" title="Broken local reference found in document." id="respec-offender-broken-local-reference-found-in-document">OpenAPI Description</a>.</p>
+<section id="fixed-fields"><div class="header-wrapper"><h5 id="x3-1-1-1-fixed-fields"><bdi class="secno">3.1.1.1 </bdi>Fixed Fields</h5><a class="self-link" href="#fixed-fields" aria-label="Permalink for Section 3.1.1.1"></a></div>
+<table>
+<thead>
+<tr>
+<th>Field Name</th>
+<th align="center">Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>resources</td>
+<td align="center">[<a href="#resources-object">Resources Object</a>]</td>
+<td>A list of available resources for the API.</td>
+</tr>
+<tr>
+<td>signature</td>
+<td align="center">[<a href="#signature-object">Signature Object</a>]</td>
+<td>An object that defines the uniquely identifying characteristics of the HTTP requests for this API, unless redefined in a Resources Object.</td>
+</tr>
+</tbody></table>
+<p>This object <em class="rfc2119">MAY</em> be extended with <a href="#specification-extensions">Specification Extensions</a>.</p>
+</section></section><section id="resources-object"><div class="header-wrapper"><h4 id="x3-1-2-resources-object"><bdi class="secno">3.1.2 </bdi>Resources Object</h4><a class="self-link" href="#resources-object" aria-label="Permalink for Section 3.1.2"></a></div>
+<p>This object represents a set of HTTP resources with shared behavior and schemas.</p>
+<section id="fixed-fields-0"><div class="header-wrapper"><h5 id="x3-1-2-1-fixed-fields"><bdi class="secno">3.1.2.1 </bdi>Fixed Fields</h5><a class="self-link" href="#fixed-fields-0" aria-label="Permalink for Section 3.1.2.1"></a></div>
+<table>
+<thead>
+<tr>
+<th>Field Name</th>
+<th align="center">Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>uriTemplate</td>
+<td align="center"><code>string</code></td>
+<td>A RFC6570 URI template that matches the set of resources available resources for the API.</td>
+</tr>
+<tr>
+<td>operations</td>
+<td align="center">map[<code>string</code>,<a href="#operation-object" class="respec-offending-element" title="Broken local reference found in document." id="respec-offender-broken-local-reference-found-in-document-0">Operation Object</a>]</td>
+<td>A map of operation objects with a key that provides a descriptiptive identifier of the operation that is unique within the resource.</td>
+</tr>
+<tr>
+<td>signature</td>
+<td align="center"><a href="#signature-object">Signature Object</a></td>
+<td>An object that defines the uniquely identifying characteristics of the HTTP requests for this Resources Object.</td>
+</tr>
+<tr>
+<td>namespaces</td>
+<td align="center">string</td>
+<td>Identifier that qualifies operation keys to ensure they are unique.</td>
+</tr>
+</tbody></table>
+<div class="issue" id="issue-container-number-1"><div role="heading" class="issue-title marker" id="h-issue" aria-level="2"><span>Issue 1</span></div><aside class="">
+
+
+<p>Should the signature object headers and pointers in the resource override the signature object at the document root, or should it be additive?</p>
+</aside></div>
+
+</section><section id="examples"><div class="header-wrapper"><h5 id="x3-1-2-2-examples"><bdi class="secno">3.1.2.2 </bdi>Examples</h5><a class="self-link" href="#examples" aria-label="Permalink for Section 3.1.2.2"></a></div>
+<p>Simple example of a CRUD api using a distinct resources object for the collection of items and an indiviual item.</p>
+<pre><code class="yaml hljs" aria-busy="false">openapi: 4.0.0
+info:
+  title: Simple example
+  version: 1.0.0
+resources:
+  - uriTemplate: /items
+    operations:
+      listItems:
+        method: GET
+      createItem:
+        method: POST
+  - uriTemplate: /item/{id}
+    operations:
+      getItem:
+        method: GET
+        parameters:
+          - name: id
+      deleteItem:
+        method: DELETE
+        parameters:
+          - name: id
+</code></pre>
+<p>This example leverages an optional path parameter to define a single resources object that has operations on the collection of items and a single item.</p>
+<pre><code class="yaml hljs" aria-busy="false">openapi: 4.0.0
+info:
+  title: CRUD + List resource
+  version: 1.0.0
+resources:
+  - uriTemplate: /items{/id}
+    operations:
+      listItems:
+        method: GET
+      createItem:
+        method: POST
+      getItem:
+        method: GET
+        parameters:
+          - name: id
+      deleteItem:
+        method: DELETE
+        parameters:
+          - name: id
+</code></pre>
+<div class="issue" id="issue-container-number-2"><div role="heading" class="issue-title marker" id="h-issue-0" aria-level="2"><span>Issue 2</span></div><aside class="">
+
+
+<p>Do we need some kind of indicator in the resource level signature to identify that the presence of "id" parameter is used to select the operation? Or does uriTemplate cover this?</p>
+</aside></div>
+
+<p>Example of an RPC API using a HTTP header field as a discriminator.</p>
+<pre><code class="yaml hljs" aria-busy="false">openapi: 4.0.0
+info:
+  title: RPC API
+  version: 1.0.0
+signature:
+  elements: [$method, $uritemplate, $request.headers.action]
+resources:
+  "/service":
+    operations:
+      createItem:
+        headers:
+          action:
+            schema:
+              const: service.CreateItem
+      updateItem:
+        method: post
+        headers:
+          action:
+            schema:
+              const: service.CreateItem
+</code></pre>
+<p>Example of a JSON RPC API using a HTTP header field as a discriminator.</p>
+<pre><code class="yaml hljs" aria-busy="false">openapi: 4.0.0
+info:
+  title: MCP Server
+  version: 1.0.0
+signature:
+  pointers: ["/params/name"]
+resources:
+  "/sse":
+    operations:
+      echo:
+        requestBody:
+          schema:
+            type: object
+            properties:
+              method:
+                type: string
+                const: "tool/call"
+              params:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    const: echo
+                  arguments:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+</code></pre>
+<p>This object <em class="rfc2119">MAY</em> be extended with <a href="#specification-extensions">Specification Extensions</a>.</p>
+</section></section><section id="signature-object"><div class="header-wrapper"><h4 id="x3-1-3-signature-object"><bdi class="secno">3.1.3 </bdi>Signature Object</h4><a class="self-link" href="#signature-object" aria-label="Permalink for Section 3.1.3"></a></div>
+<p>This object defines the uniquely identifying characteristics of the HTTP requests. The purpose of this object is to enable matching of HTTP request instances to the corresponding Resource Object, when combined with the server URL.</p>
+<section id="fixed-fields-1"><div class="header-wrapper"><h5 id="x3-1-3-1-fixed-fields"><bdi class="secno">3.1.3.1 </bdi>Fixed Fields</h5><a class="self-link" href="#fixed-fields-1" aria-label="Permalink for Section 3.1.3.1"></a></div>
+<table>
+<thead>
+<tr>
+<th>Field Name</th>
+<th align="center">Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>uriTemplate</td>
+<td align="center"><code>boolean</code></td>
+<td>Indicates if the uriTemplate is part of the operation signature. Default true.</td>
+</tr>
+<tr>
+<td>httpMethod</td>
+<td align="center"><code>boolean</code></td>
+<td>Indicates if the HTTP method is part of the operation signature. Default true.</td>
+</tr>
+<tr>
+<td>headers</td>
+<td align="center"><code>[string]</code></td>
+<td>A list of response header field names whose values are used as part of the operation signature.</td>
+</tr>
+<tr>
+<td>pointers</td>
+<td align="center"><code>[string]</code></td>
+<td>A list of JSON pointers to request content to be used as part of the operation signature.</td>
+</tr>
+<tr>
+<td>elements</td>
+<td align="center"><code>[runtimeExpressions]</code></td>
+<td></td>
+</tr>
+</tbody></table>
+<div class="issue" id="issue-container-number-3"><div role="heading" class="issue-title marker" id="h-issue-1" aria-level="2"><span>Issue 3</span></div><aside class="">
+
+
+<p>This signature design is a strawperson I created. It has not been discussed and does not represent consensus of the group.</p>
+</aside></div>
+
+
+</section></section></section></section><section id="specification-extensions"><div class="header-wrapper"><h2 id="x4-specification-extensions"><bdi class="secno">4. </bdi>Specification Extensions</h2><a class="self-link" href="#specification-extensions" aria-label="Permalink for Section 4."></a></div>
+</section><section id="appendix"><div class="header-wrapper"><h2 id="x5-appendix"><bdi class="secno">5. </bdi>Appendix</h2><a class="self-link" href="#appendix" aria-label="Permalink for Section 5."></a></div>
 </section><section class="appendix" id="revision-history"><div class="header-wrapper"><h2 id="a-revision-history"><bdi class="secno">A. </bdi>Revision History</h2><a class="self-link" href="#revision-history" aria-label="Permalink for Appendix A."></a></div>
 
 
@@ -365,15 +577,119 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
 </tbody></table>
 </section>
 
-<section class="appendix respec-offending-element" id="issue-summary" title="All sections must start with a `h2-6` element.">
+<section class="appendix" id="issue-summary"><div class="header-wrapper"><h2 id="b-issue-summary"><bdi class="secno">B. </bdi>Issue summary</h2><a class="self-link" href="#issue-summary" aria-label="Permalink for Appendix B."></a></div>
 
 
   
 
 
-</section><p role="navigation" id="back-to-top">
+<ul><li><a href="#issue-container-number-1">Issue 1</a></li><li><a href="#issue-container-number-2">Issue 2</a></li><li><a href="#issue-container-number-3">Issue 3</a></li></ul></section><section id="references" class="appendix"><div class="header-wrapper"><h2 id="c-references"><bdi class="secno">C. </bdi>References</h2><a class="self-link" href="#references" aria-label="Permalink for Appendix C."></a></div><section id="normative-references"><div class="header-wrapper"><h3 id="c-1-normative-references"><bdi class="secno">C.1 </bdi>Normative references</h3><a class="self-link" href="#normative-references" aria-label="Permalink for Appendix C.1"></a></div>
+    
+    <dl class="bibliography"><dt id="bib-rfc2119">[RFC2119]</dt><dd>
+      <a href="https://www.rfc-editor.org/rfc/rfc2119"><cite>Key words for use in RFCs to Indicate Requirement Levels</cite></a>. S. Bradner.  IETF. March 1997. Best Current Practice. URL: <a href="https://www.rfc-editor.org/rfc/rfc2119">https://www.rfc-editor.org/rfc/rfc2119</a>
+    </dd><dt id="bib-rfc8174">[RFC8174]</dt><dd>
+      <a href="https://www.rfc-editor.org/rfc/rfc8174"><cite>Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words</cite></a>. B. Leiba.  IETF. May 2017. Best Current Practice. URL: <a href="https://www.rfc-editor.org/rfc/rfc8174">https://www.rfc-editor.org/rfc/rfc8174</a>
+    </dd></dl>
+  </section></section><p role="navigation" id="back-to-top">
     <a href="#title"><abbr title="Back to Top">↑</abbr></a>
-  </p><script id="respec-dfn-panel">(() => {
+  </p><script id="respec-highlight-vars">(() => {
+// @ts-check
+
+if (document.respec) {
+  document.respec.ready.then(setupVarHighlighter);
+} else {
+  setupVarHighlighter();
+}
+
+function setupVarHighlighter() {
+  document
+    .querySelectorAll("var")
+    .forEach(varElem => varElem.addEventListener("click", highlightListener));
+}
+
+function highlightListener(ev) {
+  ev.stopPropagation();
+  const { target: varElem } = ev;
+  const hightligtedElems = highlightVars(varElem);
+  const resetListener = () => {
+    const hlColor = getHighlightColor(varElem);
+    hightligtedElems.forEach(el => removeHighlight(el, hlColor));
+    [...HL_COLORS.keys()].forEach(key => HL_COLORS.set(key, true));
+  };
+  if (hightligtedElems.length) {
+    document.body.addEventListener("click", resetListener, { once: true });
+  }
+}
+
+// availability of highlight colors. colors from var.css
+const HL_COLORS = new Map([
+  ["respec-hl-c1", true],
+  ["respec-hl-c2", true],
+  ["respec-hl-c3", true],
+  ["respec-hl-c4", true],
+  ["respec-hl-c5", true],
+  ["respec-hl-c6", true],
+  ["respec-hl-c7", true],
+]);
+
+function getHighlightColor(target) {
+  // return current colors if applicable
+  const { value } = target.classList;
+  const re = /respec-hl-\w+/;
+  const activeClass = re.test(value) && value.match(re);
+  if (activeClass) return activeClass[0];
+
+  // first color preference
+  if (HL_COLORS.get("respec-hl-c1") === true) return "respec-hl-c1";
+
+  // otherwise get some other available color
+  return [...HL_COLORS.keys()].find(c => HL_COLORS.get(c)) || "respec-hl-c1";
+}
+
+function highlightVars(varElem) {
+  const textContent = norm(varElem.textContent);
+  const parent = varElem.closest(".algorithm, section");
+  const highlightColor = getHighlightColor(varElem);
+
+  const varsToHighlight = [...parent.querySelectorAll("var")].filter(
+    el =>
+      norm(el.textContent) === textContent &&
+      el.closest(".algorithm, section") === parent
+  );
+
+  // update availability of highlight color
+  const colorStatus = varsToHighlight[0].classList.contains("respec-hl");
+  HL_COLORS.set(highlightColor, colorStatus);
+
+  // highlight vars
+  if (colorStatus) {
+    varsToHighlight.forEach(el => removeHighlight(el, highlightColor));
+    return [];
+  } else {
+    varsToHighlight.forEach(el => addHighlight(el, highlightColor));
+  }
+  return varsToHighlight;
+}
+
+function removeHighlight(el, highlightColor) {
+  el.classList.remove("respec-hl", highlightColor);
+  // clean up empty class attributes so they don't come in export
+  if (!el.classList.length) el.removeAttribute("class");
+}
+
+function addHighlight(elem, highlightColor) {
+  elem.classList.add("respec-hl", highlightColor);
+}
+
+/**
+ * Same as `norm` from src/core/utils, but our build process doesn't allow
+ * imports in runtime scripts, so duplicated here.
+ * @param {string} str
+ */
+function norm(str) {
+  return str.trim().replace(/\s+/g, " ");
+}
+})()</script><script id="respec-dfn-panel">(() => {
 // @ts-check
 if (document.respec) {
   document.respec.ready.then(setupPanel);
