@@ -1,0 +1,111 @@
+openapi: 4.0.0
+info:
+  title: Sample Banking REST API
+paths:
+  "": ## Entry point is a relative reference. It needs to be anchored to a base by a servers URL.
+  requests:
+    EntryPoint:
+      method: GET
+      summary: API entry point
+      security: BearerAuth: []
+      responses:
+        Ok:
+          status: 200
+          description: A users's representation
+          contentType: application/json:
+          contentSchema:
+            $ref: '#/components/schemas/User'
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+         accounts:
+           type: array
+           items:
+             type: Transition
+             resource: '#/resources/Account'
+
+resources:
+  Account:
+    requests:
+      Get:
+        method: GET
+        responses:
+          Ok:
+            status: 200
+            contentType: application/json
+            contentSchema:
+              type: object
+              properties:
+                balance:
+                  type: number
+                transfer:
+                  type: Transition
+                  resource: '#/resources/Transfer'
+                close:
+                  type: Transition
+                  resource: '#/resources/AccountClosing'
+              required:
+                - balance
+  AccountClosing:
+    requests:
+      Close:
+        method: POST
+        contentType: application/json:
+        contentScheme:
+          type: object
+          properties:
+            transferBalanceToIBAN:
+              type: string
+        responses:
+          Ok:
+            status: 200
+            contentType: application/json
+            contentSchema:
+              type: object
+              properties:
+                success:
+                  type: boolean
+          Conflict:
+            status: 409
+            contentType: application/json:
+            contentSchema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  explanation:
+                    type: string
+  Transfer:
+    requests:
+      Create:
+        method: POST
+        contentType: application/json
+        contentSchema:
+          type: object
+          properties:
+            amount:
+              type: number
+            transferToIBAN:
+              type: string
+        responses:
+          Ok:
+            status: 200
+            contentType: application/json
+            contentSchema:
+              type: object
+              properties:
+                success:
+                  type: boolean
+          Conflict:
+            status: 409
+            contentType: application/json:
+            contentSchema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  explanation:
+                    type: string
